@@ -71,15 +71,27 @@ After defining our graphs, we will feed them into a classifier - for this, we ca
 
 Since this problem is found in the data science academia community, our project output will likely be a paper. We will produce the paper in a similar fashion to the paper replication project we did this quarter. First, there will be a section dedicated to discussing the data set used, the exploratory data analysis, and decisions used to clean the data. Then, we will discuss our methods and how we used heterogeneous information networks in the context of the record linkage problem. This will include explanations on the features and graphs we defined and used to train our classifier. Lastly, the paper will discuss results and whether these information networks made non-trivial progression on the record linkage problem. Since a paper is not always the most readable or easily understood method of communicating results, we may condense our process and findings into a project poster, which can visually display condensed snippets of our paper.
 
+### Works Cited:
+
+1. https://ajph.aphapublications.org/toc/ajph/36/12
+2. https://science.sciencemag.org/content/130/3381/954
+3. https://www.tandfonline.com/doi/abs/10.1080/01621459.1969.10501049
+4. https://aspe.hhs.gov/report/studies-welfare-populations-data-collection-and-research-issues/two-methods-linking-probabilistic-and-deterministic-record-linkage-methods
+5. http://ceur-ws.org/Vol-1272/paper_17.pdf
+6. https://archive.ics.uci.edu/ml/datasets/Record+Linkage+Comparison+Patterns?fbclid=IwAR1dLbJZGVJ4at79aw4hm8TC0-zWOduLXJA8G9tqbgpWwmYimnk-mPMAnUg
+7. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3039555/
+8. https://pdfs.semanticscholar.org/2404/eb5760ec2925c075c7968c845d2cc6fda73b.pdf
+9. http://sites.bu.edu/jbor/files/2018/10/Building-the-Cohort-10oct2018-1.pdf
+
 ### Schedule
 
 1. Week 1:
 	- Revised Proposal
 2. Week 2:
-	- Clean dataset using the EDA from previous week
-	- Create code for creating generated datasets with Strong Keys
+	- Shinu: Clean dataset using the EDA from previous week
+	- Udai: Create code for creating generated datasets with Strong Keys
 		- allow for a hyperparameter of varying noise.
-	- Finalize Structure of our Heterogeneous Graph
+	- Wesley: Finalize Structure of our Heterogeneous Graph
 		- Determine how we are going to represent quantitative variables
 3. Week 3:
 	- Create Heterogeneous Graphs on our datasets
@@ -99,14 +111,12 @@ Since this problem is found in the data science academia community, our project 
 	- Compiling Work Into Project Output
 
 
-### Works Cited:
+### Backlog:
 
-1. https://ajph.aphapublications.org/toc/ajph/36/12
-2. https://science.sciencemag.org/content/130/3381/954
-3. https://www.tandfonline.com/doi/abs/10.1080/01621459.1969.10501049
-4. https://aspe.hhs.gov/report/studies-welfare-populations-data-collection-and-research-issues/two-methods-linking-probabilistic-and-deterministic-record-linkage-methods
-5. http://ceur-ws.org/Vol-1272/paper_17.pdf
-6. https://archive.ics.uci.edu/ml/datasets/Record+Linkage+Comparison+Patterns?fbclid=IwAR1dLbJZGVJ4at79aw4hm8TC0-zWOduLXJA8G9tqbgpWwmYimnk-mPMAnUg
-7. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3039555/
-8. https://pdfs.semanticscholar.org/2404/eb5760ec2925c075c7968c845d2cc6fda73b.pdf
-9. http://sites.bu.edu/jbor/files/2018/10/Building-the-Cohort-10oct2018-1.pdf
+For Checkpoint 1:
+	- All members - revised propsal
+	- Udai: Create code for generating datasets with strong keys (and varying noise)
+	- Shinu: Clean and perform EDA on our real-world datasets
+	- Wesley: Finalize Structure of our Heterogenous Graphs
+		- determine method for representing graphs (on disk)
+		- determine method for using quantitative attributes.
