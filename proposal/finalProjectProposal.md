@@ -30,9 +30,15 @@ The assumptions made within the model is that there are distinct $(a_i,b_j)$ pai
 
 #### Our Framework
 
-Our framework will look to represent this machine learning as an edge prediction problem on a heterogeneous graph. We will focus on the problem of finding common entities within multiple datasets, with the focus on joining two datasets. This means that our high-level graph representation will be a bipartite graph with the nodes representing the unique identifier for each row in the two relations, such as the index.
+Our framework will look to represent this machine learning problem as an edge prediction problem on a heterogeneous graph. Although the record linkage problem can be used between entities within the same relation, we will focus primarily on the task of joining two distinct relations. The reason for this is that it constrains the problem statement, allowing us to focus on the methodology before seeking for a generalizable solution. Our heterogeneous graph representation will essentially be layers of graphs. A fundamental graph within our representation is $G_{E}$, which is essentially all the nodes representing distinct enties within two relations. The edges for $G_{e}$ are present if the two nodes represent the same entities. This graph is naturally a bipartite graph, because edges of nodes within the same relation cannot exist within our framework. Our prediction task will be predicting the edge on this graph while leveraging the encoded relationships between nodes encoded in our other graphs.
+
+A second fundamental graph within our framework is $G_{EA}$. In this graph, there are 2 types of nodes: (1) entity nodes & (2) attribute value node. An edge in this case would be an 'is a' relationship that essentially encodes the tabular data. An example of this is in Figure 2.
 
 ![Example Graphical Representation](/Users/udaisingh/Documents/exampleLinkage.png){width=100%}
+
+Lastly, a third fundamental graph is $G_{AA}$. This graph has the node types of attributes and it connects different attributes. This graph, which can also be decomposed as different graphs for different relationships, is the most vague in our framework. This allows us to represent relationships between the attribute values. For example, we could encode geographical data on a city nodes by linking them to a state node. Similarly, we could create links between categorical age nodes to a binning node that may be defined as ranges of ages. This allows for a natural representation of information that is beyond the data present in the dataset itself. A non-graphical interpretation of this is to create new columns within our tabular representation, which naturally does not scale well in terms of speed and space.
+
+However, due to $G_{AA}$ being very malleable, it can be created with a varying amount of precision and there is no apparent way to automate the creation of this graph.
 
 The heterogeneous graphs will allow us to encode the data represented within the relation in a graphical manner. For example, if there is a categorical variable within each relation, then there can be an 'is a' edge that connects entities within each dataset. A quantitative variable will be treated differently, as ignoring it could result in generalization of data and including it could make it hard to create any edges between relations. Hence, we will be experimenting with various methods of manipulating quantitative variables such as binning, etc. to see how this impacts the edge prediction problem.  
 Therefore, we will be working to generalize all types of columns within the dataset to create edges between each relation. The general assumption that will follow within our model is that if the "strength" of a meta-path is high between the 2 nodes, then we can predict that there is an edge present, thus linking the records.
@@ -47,8 +53,8 @@ After converting our datasets into a heterogenous graph, we would implement vari
 
 ### Relationship to Previous Work
 
-Our work is heavily dependent on previous work done by [Ivan Fellegi and Alan Sunter](https://www.tandfonline.com/doi/abs/10.1080/01621459.1969.10501049. We will be using the two methods talked about in the paper, deterministic linkage and probabilistic linkage, in order to create the links between nodes. The deterministic linkage tries to create a process to find a possible primary key within a given dataset. Since the datasets we would be dealing with lack a primary key, we would have to create a primary using a combination of the individual columns and how they are related to each other. The probabilistic linkage deals with assigning a probability of two records being part of the same unit. We will be using both these techniques in order to create our heterogenous graphs.
-Our data cleaning and methods of deriving the nodes will stem from the following paper,  [Building a National HIV Cohort from Routine Laboratory Data: Probabilistic Record-Linkage with Graphs](http://sites.bu.edu/jbor/files/2018/10/Building-the-Cohort-10oct2018-1.pdf It details how we can create the nodes for our graphs by understanding the relationships in our datasets and create our own training data for our machine learning model. We will use [An efficient record linkage scheme using graphical analysis for identifier error detection](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3039555/) in order to understand how to deal with dangling references and duplicate records.
+Our work is heavily dependent on previous work done by [Ivan Fellegi and Alan Sunter](https://www.tandfonline.com/doi/abs/10.1080/01621459.1969.10501049). We will be using the two methods talked about in the paper, deterministic linkage and probabilistic linkage, in order to create the links between nodes. The deterministic linkage tries to create a process to find a possible primary key within a given dataset. Since the datasets we would be dealing with lack a primary key, we would have to create a primary using a combination of the individual columns and how they are related to each other. The probabilistic linkage deals with assigning a probability of two records being part of the same unit. We will be using both these techniques in order to create our heterogenous graphs.
+Our data cleaning and methods of deriving the nodes will stem from the following paper,  [Building a National HIV Cohort from Routine Laboratory Data: Probabilistic Record-Linkage with Graphs](http://sites.bu.edu/jbor/files/2018/10/Building-the-Cohort-10oct2018-1.pdf) It details how we can create the nodes for our graphs by understanding the relationships in our datasets and create our own training data for our machine learning model. We will use [An efficient record linkage scheme using graphical analysis for identifier error detection](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3039555/) in order to understand how to deal with dangling references and duplicate records.
 Our project will combine the ideas from the different papers mentioned above in order to create try to create a better solution to the record linkage problem. We also look forward to testing multiple models in order to see if there is a better classifier that can solve the problem.
 Since we worked with heterogeneous information networks in malware detection, using heterogeneous information networks for record linkage is a clear extension of our previous work. We are introducing something new by tackling a problem unrelated to the cybersecurity space.
 
@@ -68,18 +74,26 @@ Since this problem is found in the data science academia community, our project 
 ### Schedule
 
 1. Week 1:
-	- Perform EDA on our dataset
-	- Test classification performance on a baseline model
+	- Revised Proposal
 2. Week 2:
 	- Clean dataset using the EDA from previous week
+	- Create code for creating generated datasets with Strong Keys
+		- allow for a hyperparameter of varying noise.
 	- Finalize Structure of our Heterogeneous Graph
+		- Determine how we are going to represent quantitative variables
 3. Week 3:
-	- Create Heterogeneous Graphs
+	- Create Heterogeneous Graphs on our datasets
+	- Research machine learning methods on graphs
+		- primarily focus on feature representation
 4. Week 4:
 	- Test out different feature representations
-	- Train Model Using Graphs
+	- Test out different ML models
+		- tune hyperparameters
+	- Goal: have a working pipeline from the table -> results
 5. Week 5:
-	- Evaluating results of different feature representation
+	- Evaluate our pipeline over different datasets
+		- example: changing noise in our generated dataset
+		- evaluating results on 2 "real" datasets
 	- Tuning Model and Tweaking Features
 6. Week 6:
 	- Compiling Work Into Project Output
