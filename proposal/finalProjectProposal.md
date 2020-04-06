@@ -106,9 +106,10 @@ Since this problem is found in the data science academia community, our project 
 	- Evaluate our pipeline over different datasets
 		- example: changing noise in our generated dataset
 		- evaluating results on 2 "real" datasets
-	- Tuning Model and Tweaking Features
 6. Week 6:
-	- Compiling Work Into Project Output
+	- Create Report
+	- Create Website
+	- Final testing of the pipeline
 
 
 ### Backlog:
