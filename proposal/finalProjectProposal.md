@@ -88,6 +88,8 @@ After defining our graphs, we will feed them into a classifier - for this, we ca
 
 Since this problem is found in the data science academia community, our project output will likely be a paper. We will produce the paper in a similar fashion to the paper replication project we did this quarter. First, there will be a section dedicated to discussing the data set used, the exploratory data analysis, and decisions used to clean the data. Then, we will discuss our methods and how we used heterogeneous information networks in the context of the record linkage problem. This will include explanations on the features and graphs we defined and used to train our classifier. Lastly, the paper will discuss results and whether these information networks made non-trivial progression on the record linkage problem. Since a paper is not always the most readable or easily understood method of communicating results, we may condense our process and findings into a project poster, which can visually display condensed snippets of our paper.
 
+\pagebreak
+
 ### Works Cited:
 
 1. https://ajph.aphapublications.org/toc/ajph/36/12
@@ -131,7 +133,7 @@ Since this problem is found in the data science academia community, our project 
 
 ### Backlog:
 
-For Checkpoint 1:
+- For Checkpoint 1:
 	- All members - revised propsal
 	- Udai: Create code for generating datasets with strong keys (and varying noise)
 	- Shinu: Clean and perform EDA on our real-world datasets
