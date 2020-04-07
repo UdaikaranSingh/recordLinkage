@@ -1,4 +1,0 @@
-Goals for Week 1:
-
-- Redefine the proposal for submission.
-- We Want to clarify our data sources (aka data ingestion process) and how feature extraction/representation goals.
