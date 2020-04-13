@@ -3,14 +3,42 @@ title:  Project Checkpoint 1
 author: Ittoop Shinu Shibu, Udaikaran Singh, Wesley Kwan
 geometry: margin=3cm
 ---
+
 - For Checkpoint 1:
 	- Udai: Create code for generating datasets with strong keys (and varying noise)
-	- Shinu: Clean and perform EDA on our real-world datasets
+	- Shinu: Clean and perform EDA on our real-world dataset
 	- Wesley: Finalize Structure of our Heterogenous Graphs
 		- determine method for representing graphs (on disk)
 		- determine method for using quantitative attributes.
 
-### Dataset Generation
+\pagebreak
+
+### Our Task & Data
+
+The task we are looking to progress is record linkage using using heterogenous graph structures. The applications of this are widespred; however due to limited research specifically on our topic, we are going to be using a "toy" record linakge dataset used to baselines general record linkage algorithms.
+
+Also, we are going to be generating artificially generated datasets to periodically test our pipeline. The artifical datasets will allow us to control how stochastic our datasets are and if there is an existence of a strong key. The heterogenous graph structure we are looking to make is agnostic to the "type" of the data within the dataset, therefore a fake dataset with categorical attributes will work as a satisfactory stand-in for our task. 
+
+Also, due to it being unclear on the challenges that may come while contructing this pipeline, the ability to make artificial datasets allows us to test more quickly and dynamically scale the size and scope of the data. We feel that this flexibility will be vital for the success of our project.
+
+### Artificial Dataset Generation
+
+For the artifical dataset generation, we create datasets that are parameterized by:
+
+1. number of rows
+2. number of columns
+3. number of strong columns
+4. randomness parameter $0 < p < 1$
+5. maximum number of categories
+
+The number of rows allows us to dynamically scale up our project. By testing our pipeleine on smaller inputs, we will able to identify and address problems on a smaller scale before attempting to increase the scope of the project. For example, a question that we hope to address is whether our model will be able to effectively capture a composite strong key within the fake dataset. 
+
+Also, the parameter for the maximum number of categories will allow us to see how our models performs in sparser representation. For example, as the number of categories grows, we would expect the performance of the model to suffer. However, this would allow us to characterize this relationship more precisely.
+
+Lastly, the randomness parameter will allow us to see how our model performs relative to noise. We created a conditional distribution between adjacent columns. Based on the randomness parameter, we will either choose to follow this conditional distribution or place a random value. If the randomness parameter is 0, then adjacent columns are very highly conditionally dependent. However, if the randomness parameter is 1, then all columns apart from the strong columns are noise.
+
+The main concern over this process is that it will not generalize to the real-world datasets. We attempted to encode the idea of conditional dependence between columns, however this only represents the dependence between 2 columns. This obviously does not correspond to reality, in which dependencies can be complicated and found between multiple columns. However, we feel this will likely perform as a placeholder to help resolve some basic issues in our model before attempting to apply the model onto real data.
+
 
 ### Exploratory Data Analysis
 
@@ -32,41 +60,69 @@ The datasets also provides true or false labels that tell us if the two records 
 
 One of the first surveys done on the dataset was to find the number of missing attributes in each column.
 
-![null_distribution](./images/null_distribution.PNG)
+![null_distribution](./images/null_distribution.PNG){ width=40% }
 
 The above table shows that two columns, cmp_fname_c2 and cmp_lname_c2, have a large number of missing attribute. Missing attributes mean that it will be impossible to check the similarity value of the attribute for that particular record against other records and this could result in increasing the difficulty of finding matches.
 
 In order to see this effect, we took a look at the distribution of the missing attributes in the correctly matched records and records that are not a match.
 
-![match_null_distribution](./images/match_null_distribution.PNG)
+| Matching Null Distribution        | Non-Matching Null Distribution           |
+| ------------- |:-------------:|
+| ![match_null_distribution](./images/match_null_distribution.PNG){ width=30% }     | ![not_match_null_distribution](./images/not_match_null_distribution.PNG){ width=30% }|
 
-![not_match_null_distribution](./images/not_match_null_distribution.PNG)
 
 The two tables show that the distribution of missing values in each column, whether they are matched or not, are pretty similar. This means that the missingness is almost equally balanced for records that are matched and those that are not matched. This shows that there is no bias in the way the missing attributes are spread out between matched and not matched records.
 
 Next, we decided to check the overall sum of similarity per record. In order to do this, we converted the missing values to 0. This is because it would be hard to estimate a value as we have no way of knowing the original value.
 We summed the columns by row and binned the values into bins of 0-1, 1-2, 2-3, 3-4, 4-5, 5-6, 7-8, 8-9. We proceeded to plot the distribution of these bins for matched and not matched columns.
 
-![similarity_match](./images/similarity_match.PNG)
-![similarity_non_match](./images/similarity_non_match.PNG)
+| Similarity Matching        | Similarity Non-Matching           |
+| ------------- |:-------------:|
+| ![similarity_match](./images/similarity_match.PNG){ width=50% }    | ![similarity_non_match](./images/similarity_non_match.PNG){ width=60% }|
 
 The plots show us that records that are matched together tend to have a high sum of similarity. There are a 56 outliers from the unmatched records that manage to reach the 6-7 range bin and 13 matched records that fall into the 3-4 bin, however this number is very miniscule. Hence, it should be fairly easy to differentiate between a matched record and an unmatched record.
 
 An exploration of the attributes of the matched records that fall into the 6-7 bin shows that cmp_fname_c2 and cmp_lname_c2 play a large role in the drop of its similarity score.
 
-![col_1_distribution](./images/col_1_distribution.PNG)
 
-![col_2_distribution](./images/col_2_distribution.PNG)
+|          |             |
+| ------------- |:-------------:|
+| ![col_1_distribution](./images/col_1_distribution.PNG){ width=53% }    | ![col_2_distribution](./images/col_2_distribution.PNG){ width=50% }|
 
 The rows that fall in the 6-7 bin have a large number of missing values in the cmp_fname_c2 and cmp_lname_c2. If these two columns were not missing, the records could have had much higher similarity measures. Hence, this proves that missing attributes play a large role in determining if two records are a match or not.
 
+### Quantitative Variables in Heterogenous Information Networks
 
+...
 
+### Schema
 
+[@wesley -> make sure to address what we plan to store & how]
 
-
-### Graph Storage and Quantitative Variables in Heterogenous Information Networks
 
 ### Works Cited:
 
 1.
+
+\pagebreak
+
+### Revision to the Proposal
+
+We currently don't feel there needs to be any major revisions to the proposal. 
+
+### Backlog:
+
+- For Checkpoint 1:
+	- All members - revised propsal
+	- Udai: Create code for generating datasets with strong keys (and varying noise)
+	- Shinu: Clean and perform EDA on our real-world datasets
+	- Wesley: Finalize Structure of our Heterogenous Graphs
+		- determine method for representing graphs (on disk)
+		- determine method for using quantitative attributes.
+
+- For Checkpoint 2:
+	- Generate Heterogenous Graphs (Udai)
+	- Train baselines Models (Wesley)
+		- perform tests over a subset of generated datasets
+	- Clean real dataset and transform in a usable format (Shinu)
+	- Stretch Goal: Train/Evaluate Hindroid Model using our data (everyone)
