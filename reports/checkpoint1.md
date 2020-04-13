@@ -4,6 +4,14 @@ author: Ittoop Shinu Shibu, Udaikaran Singh, Wesley Kwan
 geometry: margin=3cm
 ---
 
+- For Checkpoint 1:
+	- All members - revised proposal
+	- Udai: Create code for generating datasets with strong keys (and varying noise)
+	- Shinu: Clean and perform EDA on our real-world datasets
+	- Wesley: Finalize Structure of our Heterogenous Graphs
+		- determine method for representing graphs (on disk)
+		- determine method for using quantitative attributes.
+
 \pagebreak
 
 ### Our Task & Data
@@ -103,7 +111,8 @@ With the artificial dataset, our graphs will be defined based on the parameters 
 
 ### Works Cited:
 
-1.
+1. https://www.cse.ust.hk/~yqsong/papers/2017-KDD-HINDROID.pdf
+2. http://archive.ics.uci.edu/ml/datasets/Record+Linkage+Comparison+Patterns
 
 \pagebreak
 
