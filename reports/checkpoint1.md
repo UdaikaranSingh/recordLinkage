@@ -15,15 +15,15 @@ geometry: margin=3cm
 
 ### Our Task & Data
 
-The task we are looking to progress is record linkage using using heterogenous graph structures. The applications of this are widespred; however due to limited research specifically on our topic, we are going to be using a "toy" record linakge dataset used to baselines general record linkage algorithms.
+The task we are looking to progress is record linkage using heterogenous graph structures. The applications of this are widespread; however due to limited research specifically on our topic, we are going to be using a "toy" record linkage dataset used to baseline general record linkage algorithms.
 
-Also, we are going to be generating artificially generated datasets to periodically test our pipeline. The artifical datasets will allow us to control how stochastic our datasets are and if there is an existence of a strong key. The heterogenous graph structure we are looking to make is agnostic to the "type" of the data within the dataset, therefore a fake dataset with categorical attributes will work as a satisfactory stand-in for our task. 
+Also, we are going to be generating artificially generated datasets to periodically test our pipeline. The artificial datasets will allow us to control how stochastic our datasets are and if there is an existence of a strong key. The heterogenous graph structure we are looking to make is agnostic to the "type" of the data within the dataset, therefore a fake dataset with categorical attributes will work as a satisfactory stand-in for our task.
 
-Also, due to it being unclear on the challenges that may come while contructing this pipeline, the ability to make artificial datasets allows us to test more quickly and dynamically scale the size and scope of the data. We feel that this flexibility will be vital for the success of our project.
+Also, due to it being unclear on the challenges that may come while constructing this pipeline, the ability to make artificial datasets allows us to test more quickly and dynamically scale the size and scope of the data. We feel that this flexibility will be vital for the success of our project.
 
 ### Artificial Dataset Generation
 
-For the artifical dataset generation, we create datasets that are parameterized by:
+For the artificial dataset generation, we create datasets that are parameterized by:
 
 1. number of rows
 2. number of columns
@@ -31,7 +31,7 @@ For the artifical dataset generation, we create datasets that are parameterized 
 4. randomness parameter $0 < p < 1$
 5. maximum number of categories
 
-The number of rows allows us to dynamically scale up our project. By testing our pipeleine on smaller inputs, we will able to identify and address problems on a smaller scale before attempting to increase the scope of the project. For example, a question that we hope to address is whether our model will be able to effectively capture a composite strong key within the fake dataset. 
+The number of rows allows us to dynamically scale up our project. By testing our pipeline on smaller inputs, we will able to identify and address problems on a smaller scale before attempting to increase the scope of the project. For example, a question that we hope to address is whether our model will be able to effectively capture a composite strong key within the fake dataset.
 
 Also, the parameter for the maximum number of categories will allow us to see how our models performs in sparser representation. For example, as the number of categories grows, we would expect the performance of the model to suffer. However, this would allow us to characterize this relationship more precisely.
 
@@ -95,11 +95,15 @@ The rows that fall in the 6-7 bin have a large number of missing values in the c
 
 ### Quantitative Variables in Heterogenous Information Networks
 
-...
+A main concern of feature representation in graphs is how we can encode quantitative variables  
 
 ### Schema
 
-[@wesley -> make sure to address what we plan to store & how]
+As with the malware detection project, having an efficient method of storing the heterogenous graphs creates is crucial for the project pipeline. In a similar fashion to how graphs were stored and represented in the Hindroid
+paper, we will be using adjacency matrices to store our graphs. As explained in the proposal, we will have 3 graphs to store: $G_{E}$, $G_{EA}$, and $G_{AA}$, which correspond to entity to entity, entity "is a" attribute, and attribute to attribute. In the medical record dataset, $G_{E}$ is readily defined with ground truth labels already - we can create a matrix with an entry of 1 if row i and column j represent the same entities and 0 otherwise. $G_{EA}$ can best be defined for sex - we can create a matrix with an entry of 1 if row i and column j are in agreement of the sex label and 0 otherwise. $G_{AA}$ will likely comprise of the date of birth and name data, since those day/month/year of birth and first name / last name columns are naturally interconnected.
+
+These graphs we defined will need an efficient physical storage solution as well, as matrices of 5 million by 5 million rows are unlikely to be easily manipulated in matrix multiplication for creating metapaths later down the line. We can store matrices created in intermediate files like csv files, but we will still need to deal with the physical limitations of computing large matrix operations. As such, we will be working on ways to scale down these graphs and hence their adjacency matrices moving forward.
+
 
 
 ### Works Cited:
@@ -110,12 +114,12 @@ The rows that fall in the 6-7 bin have a large number of missing values in the c
 
 ### Revision to the Proposal
 
-We currently don't feel there needs to be any major revisions to the proposal. 
+We currently don't feel there needs to be any major revisions to the proposal.
 
 ### Backlog:
 
 - For Checkpoint 1:
-	- All members - revised propsal
+	- All members - revised proposal
 	- Udai: Create code for generating datasets with strong keys (and varying noise)
 	- Shinu: Clean and perform EDA on our real-world datasets
 	- Wesley: Finalize Structure of our Heterogenous Graphs
