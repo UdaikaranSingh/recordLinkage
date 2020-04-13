@@ -60,7 +60,7 @@ An exploration of the attributes of the matched records that fall into the 6-7 b
 
 The rows that fall in the 6-7 bin have a large number of missing values in the cmp_fname_c2 and cmp_lname_c2. If these two columns were not missing, the records could have had much higher similarity measures. Hence, this proves that missing attributes play a large role in determining if two records are a match or not.
 
-The exploration of the missing and similarity values show us that there are correlations between high sum of similarity between attributes and if they are matches, and high number of missing values and low similarity values. Hence, it should be possible to predict if two records are matches or not in this dataset by creating a model that takes these correlations into account.
+The exploration of the missing and similarity values show us that there are two main correlations: 1. a high sum of similarity generally means that the two record are match, 2. high number of missing values tend to result in a low sum of similarity. Hence, it should be possible to predict if two records are matches or not in this dataset by creating a model that takes these correlations into account.
 
 
 
