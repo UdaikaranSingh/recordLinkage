@@ -62,7 +62,7 @@ One of the first surveys done on the dataset was to find the number of missing a
 
 ![null_distribution](./images/null_distribution.PNG){ width=40% }
 
-The above table shows that two columns, cmp_fname_c2 and cmp_lname_c2, have a large number of missing attribute. Missing attributes mean that it will be impossible to check the similarity value of the attribute for that particular record against other records and this could result in increasing the difficulty of finding matches.
+The above table shows that two columns, cmp_fname_c2 and cmp_lname_c2, have a large number of missing attribute. Missing attributes mean that it will be impossible to check the similarity of the attribute for that particular record against other records and this could result in increasing the difficulty of finding matches.
 
 In order to see this effect, we took a look at the distribution of the missing attributes in the correctly matched records and records that are not a match.
 
@@ -84,6 +84,8 @@ The plots show us that records that are matched together tend to have a high sum
 
 An exploration of the attributes of the matched records that fall into the 6-7 bin shows that cmp_fname_c2 and cmp_lname_c2 play a large role in the drop of its similarity score.
 
+The exploration of the missing and similarity values show us that there are two main correlations: 1. a high sum of similarity generally means that the two record are match, 2. high number of missing values tend to result in a low sum of similarity. Hence, it should be possible to predict if two records are matches or not in this dataset by creating a model that takes these correlations into account.
+
 
 |          |             |
 | ------------- |:-------------:|
@@ -96,6 +98,7 @@ The rows that fall in the 6-7 bin have a large number of missing values in the c
 ...
 
 ### Schema
+=======
 
 [@wesley -> make sure to address what we plan to store & how]
 
