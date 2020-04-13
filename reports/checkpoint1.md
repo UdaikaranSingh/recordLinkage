@@ -98,7 +98,6 @@ The rows that fall in the 6-7 bin have a large number of missing values in the c
 ...
 
 ### Schema
-=======
 
 [@wesley -> make sure to address what we plan to store & how]
 
