@@ -33,11 +33,11 @@ $$M = {(a_i,b_j) : d_{ij} = 1, i = 1,\dots,n, and \ j = i,\dots,m}$$ $$U = {(a_i
 
 Then, based on the comparisons between the features of $a_i$ and $b_j$, which is represented as $g_{ij}$, we would learn the probability distribution of $P(g_{ij}|D_{ij} = d_{ij})$.
 
-The assumptions made within the model is that there are distinct $(a_i,b_j)$ pairs within the dataset. Therefore, we are assuming that the characteristics of $(a_i,b_j)$ must be mapped to either a 0 or 1 deterministically. However, given this assumption, the problem reduces to a binary classification problem. This framework lends itself to many of the traditional machine learning models that are commonly used, such as naive Bayes classifiers & SVM.
+The assumptions made within the model is that there are distinct $(a_i,b_j)$ pairs within the dataset. Therefore, we are assuming that the characteristics of $(a_i,b_j)$ must be mapped to either a 0 or 1 deterministically. However, given this assumption, the problem reduces to a binary classification problem. This framework lends itself to many of the traditional machine learning models that are commonly used, such as Naive Bayes classifiers & SVM.
 
 #### Our Framework
 
-Our framework will look to represent this machine learning problem as an edge prediction problem on a heterogeneous graph. Although the record linkage problem can be used between entities within the same relation, we will focus primarily on the task of joining two distinct relations. The reason for this is that it constrains the problem statement, allowing us to focus on the methodology before seeking for a generalizable solution. Our heterogeneous graph representation will essentially be layers of graphs. A fundamental graph within our representation is $G_{E}$, which is essentially all the nodes representing distinct enties within two relations. The edges for $G_{e}$ are present if the two nodes represent the same entities. This graph is naturally a bipartite graph, because edges of nodes within the same relation cannot exist within our framework. Our prediction task will be predicting the edge on this graph while leveraging the encoded relationships between nodes encoded in our other graphs.
+Our framework will look to represent this machine learning problem as an edge prediction problem on a heterogeneous graph. Although the record linkage problem can be used between entities within the same relation, we will focus primarily on the task of joining two distinct relations. The reason for this is that it constrains the problem statement, allowing us to focus on the methodology before seeking for a generalizable solution. Our heterogeneous graph representation will essentially be layers of graphs. A fundamental graph within our representation is $G_{E}$, which is essentially all the nodes representing distinct entities within two relations. The edges for $G_{E}$ are present if the two nodes represent the same entities. This graph is naturally a bipartite graph, because edges of nodes within the same relation cannot exist within our framework. Our prediction task will be predicting the edge on this graph while leveraging the encoded relationships between nodes encoded in our other graphs.
 
 A second fundamental graph within our framework is $G_{EA}$. In this graph, there are 2 types of nodes: (1) entity nodes & (2) attribute value node. An edge in this case would be an 'is a' relationship that essentially encodes the tabular data. An example of this is in Figure 2.
 
@@ -47,7 +47,7 @@ Lastly, a third fundamental graph is $G_{AA}$. This graph has the node types of 
 
 However, due to $G_{AA}$ being very malleable, it can be created with a varying amount of precision and there is no apparent way to automate the creation of this graph.
 
-The heterogeneous graphs will allow us to encode the data represented within the relation in a graphical manner. For example, if there is a categorical variable within each relation, then there can be an 'is a' edge that connects entities within each dataset. A quantitative variable will be treated differently, as ignoring it could result in generalization of data and including it could make it hard to create any edges between relations. Hence, we will be experimenting with various methods of manipulating quantitative variables such as binning, etc. to see how this impacts the edge prediction problem. 
+The heterogeneous graphs will allow us to encode the data represented within the relation in a graphical manner. For example, if there is a categorical variable within each relation, then there can be an 'is a' edge that connects entities within each dataset. A quantitative variable will be treated differently, as ignoring it could result in generalization of data and including it could make it hard to create any edges between relations. Hence, we will be experimenting with various methods of manipulating quantitative variables such as binning, etc. to see how this impacts the edge prediction problem.
 
 Therefore, we will be working to generalize all types of columns within the dataset to create edges between each relation. The general assumption that will follow within our model is that if the "strength" of a meta-path is high between the 2 nodes, then we can predict that there is an edge present, thus linking the records.
 
@@ -81,7 +81,7 @@ We will be using two datasets for our project. The first dataset we will be usin
 
 The next dataset will be a fake generated dataset. We will be constructing this dataset by creating or taking a dataset with strong keys and breaking down the strong keys into different attributes with added noise. Hence, this dataset should help us understand if our model is able to make accurate edge predictions by comparing the strong key dataset with the result of our model on the fake-generated dataset.
 
-We will use feature representations with heterogeneous information networks, as we did with malware. As explained above, we will be creating graphs with differing node types and connecting them based on relationships we define. The labels on the data were primarily generated by matching phonetic equality of names; since we cannot extend on this, we can instead find an equivalent by analysing the text in names. This can be further improved on by connecting relationships between name and the other attributes of the data set.
+We will use feature representations with heterogeneous information networks, as we did with malware. As explained above, we will be creating graphs with differing node types and connecting them based on relationships we define. The labels on the data were primarily generated by matching phonetic equality of names; since we cannot extend on this, we can instead find an equivalent by analyzing the text in names. This can be further improved on by connecting relationships between name and the other attributes of the data set.
 After defining our graphs, we will feed them into a classifier - for this, we can use Naive Bayes, logistic regression, SVM, etc. Our baseline model will be a Naive Bayes Model. To evaluate our model, we will use a variety of metrics. Looking at the record pairs, we can see that this is an imbalanced binary classification task - because of this, we will be using metrics such as BCR and F-score to better gauge our model's performance.
 
 ### Project Output
@@ -134,7 +134,7 @@ Since this problem is found in the data science academia community, our project 
 ### Backlog:
 
 - For Checkpoint 1:
-	- All members - revised propsal
+	- All members - revised proposal
 	- Udai: Create code for generating datasets with strong keys (and varying noise)
 	- Shinu: Clean and perform EDA on our real-world datasets
 	- Wesley: Finalize Structure of our Heterogenous Graphs

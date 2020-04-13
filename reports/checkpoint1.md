@@ -4,13 +4,6 @@ author: Ittoop Shinu Shibu, Udaikaran Singh, Wesley Kwan
 geometry: margin=3cm
 ---
 
-- For Checkpoint 1:
-	- Udai: Create code for generating datasets with strong keys (and varying noise)
-	- Shinu: Clean and perform EDA on our real-world dataset
-	- Wesley: Finalize Structure of our Heterogenous Graphs
-		- determine method for representing graphs (on disk)
-		- determine method for using quantitative attributes.
-
 \pagebreak
 
 ### Our Task & Data
@@ -95,7 +88,9 @@ The rows that fall in the 6-7 bin have a large number of missing values in the c
 
 ### Quantitative Variables in Heterogenous Information Networks
 
-A main concern of feature representation in graphs is how we can encode quantitative variables  
+A main concern of feature representation in graphs is how we can encode quantitative variables. Specifically, this is necessary for record linkage, as we need to encode proximity between quantitative variables to effectively link entities together that share similar features in quantitative columns. For the baseline, we will be rounding numerical columns and encode the graph such that there will be an edge between two entities if they share the same rounded numerical value.
+
+Another method we could choose is binning numerical columns and connecting entities with edges their numerical columns have values that are in the same bins. While this creates a coarser view of the data, it allows for more leniency in terms of a closeness metric and can allow for connections between entities even when they do not share the same values in their quantitative variables. This can allow room for error in clerical errors (e.g. accidentally inputting 4 instead of 3). Binning and other similarity metrics will be toyed with as we scale up our project.
 
 ### Schema
 
@@ -104,7 +99,7 @@ paper, we will be using adjacency matrices to store our graphs. As explained in 
 
 These graphs we defined will need an efficient physical storage solution as well, as matrices of 5 million by 5 million rows are unlikely to be easily manipulated in matrix multiplication for creating metapaths later down the line. We can store matrices created in intermediate files like csv files, but we will still need to deal with the physical limitations of computing large matrix operations. As such, we will be working on ways to scale down these graphs and hence their adjacency matrices moving forward.
 
-
+With the artificial dataset, our graphs will be defined based on the parameters we pass in. We will store the graphs in adjacency matrices, but these matrices will be defined based on the artificial dataset we choose to generate. It's worth noting that we will likely work on this generated dataset first in order to test our heterogenous graph structures and project pipeline before scaling up to the medical record dataset.
 
 ### Works Cited:
 
