@@ -1,3 +1,9 @@
+import pandas as pd
+import numpy as np
+import os
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+import re
+
 class graphEmbedder:
     
     def __init__(self):
@@ -10,8 +16,8 @@ class graphEmbedder:
     
     def embeddOrdinal(self,dfs,idCol,column,name,bins=10, equalBinSize = True):
         df = pd.concat([df[[idCol,column]] for df in dfs])
-        if equalBinSize: temp = pd.qcut(df[column], q = bins)
-        else: temp = temp = pd.cut(df[column], bins = bins)
+        if equalBinSize: temp = pd.qcut(df[column], q = bins, labels = False)
+        else: temp = pd.cut(df[column], bins = bins, labels = False)
         
         tempDf = df[[idCol]].copy(deep=True)
         tempDf['temp'] = temp
@@ -23,11 +29,12 @@ class graphEmbedder:
         df = pd.concat([df[[idCol,column]] for df in dfs])
         temp = df[[idCol, column]]
         temp = temp.dropna()
-        if method == 'BagOfWords': vectorizer = CountVectorizer(min_df=min_df, ngram_range = (1,2))
-        elif method == 'TFIDF': vectorizer = TfidfVectorizer(min_df=min_df, ngram_range = (1,2))
+        if method == 'BagOfWords': vectorizer = CountVectorizer(min_df=min_df,max_df = 0.7, ngram_range = (1,1),max_features = 10000)
+        elif method == 'TFIDF': vectorizer = TfidfVectorizer(min_df=min_df,max_df = 0.7, ngram_range = (1,1), max_features = 10000)
         
-        output = CV.fit_transform(temp[column]).toarray()
-        tokens = CV.get_feature_names()
+        output = vectorizer.fit_transform(temp[column]).toarray()
+        print(output.shape)
+        tokens = vectorizer.get_feature_names()
         idVal = list(temp[idCol])
         
         graph = {}
@@ -42,8 +49,8 @@ class graphEmbedder:
         return True
     
     def embeddCategorical(self,dfs,idCol,column,name):
-        df = pd.concat([dfs[[idCol,column]] for df in dfs])
-        graph = dict(df[['id','manufacturer']].to_numpy())
+        df = pd.concat([df[[idCol,column]] for df in dfs])
+        graph = dict(df[[idCol,column]].to_numpy())
         self.Graphs.append((name,graph))
         return True
     
@@ -54,6 +61,7 @@ class graphEmbedder:
     
     def saveGraph(self, method = 'csv', fname = 'heteroGraph.csv'):
         df = pd.DataFrame(columns = ['source', 'target','type'])
+        print(len(self.Graphs))
         for graph in self.Graphs:
             name = graph[0]
             links = graph[1]
@@ -67,9 +75,11 @@ class graphEmbedder:
     def _graphFixer(self, dictionary):
         temp = []
         for key, value in dictionary.items():
+            
             if type(value)==list:
                 for v in value:
                     temp.append((key,v))
             else:
                 temp.append((key,value))
+            
         return temp
