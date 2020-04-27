@@ -14,7 +14,7 @@ geometry: margin=3cm
 
 # Problem Statement
 
-...**Wesley**
+The problem we are looking to solve is the issue of record linkage, which is the process of relating entities within different datasets. After further data ingestion and EDA, we have decided to use a dataset with papers and authors, where we will use heterogenous graph techniques to perform entity resolution. In addition, we have gathered smaller, similar datasets to test our implementation and methods.
 
 # Datasets
 
@@ -57,39 +57,63 @@ The missing values in the columns will play large part as more missing values re
 
 ## Introduction
 
-The four smaller dataset that we will be looking at are from [Leipzig Universities Database Department](https://dbs.uni-leipzig.de/research/projects/object_matching/benchmark_datasets_for_entity_resolution). Each dataset is sampled from real world examples and the noise in each one varies differently. These datasets are primarily used as benchmarks for testing different entity resolution techniques hence, they will be ideal to evaluate our model.
+The four smaller datasets that we will be looking at are from [Leipzig Universities Database Department](https://dbs.uni-leipzig.de/research/projects/object_matching/benchmark_datasets_for_entity_resolution). Each dataset is sampled from real world examples and the noise in each one varies differently. These datasets are primarily used as benchmarks for testing different entity resolution techniques hence, they will be ideal to evaluate our model. In particular, two of these datasets are directly associated with the Author Disambiguation Dataset we will be using for our final implementation, as these datasets deal with linking books and authors. The following datasets following a similar format, comprising of two separate datasets and a file that describes the matching entities between the two datasets.
 
 ## Abt-Buy
 
-This dataset is two seperate datasets of with 1081 and 1092 instances of purchasable items with names and description, but without a clear link between the two datasets. Most of the data within this dataset is textual, apart from a price column. However, the price column is the most dirty column in that it has NaN values. There is also an issue with the fact that the description column within the Buy dataset seems to also have many missing values. This intuitively gives means that the meaningful connections must be made between the description and the name columns.
+This dataset is two separate datasets of with 1081 and 1092 instances of purchasable items with names and description, but without a clear link between the two datasets. Most of the data within this dataset is textual, apart from a price column. However, the price column is the most dirty column in that it has NaN values. There is also an issue with the fact that the description column within the Buy dataset seems to also have many missing values. This intuitively gives means that the meaningful connections must be made between the description and the name columns.
 
 | About Table NaN's      | Buy Table NaN's          |
 | ------------- |:-------------:|
 | ![About Table](./images/about_table_nan.png){ width=30% }     | ![Buy Table](./images/buy_table_nan.png){ width=30% }|
 
-There is also some abiguity within the dataset. For example, there is a few examples within the dataset in which multiple entities are matched. Within this case, we want our recording linkage algorithm to be able to find that the entities are similar enough rather than being confused by the small differences. In other words, we want our record linkage algorithm to be invariant to such noise within the data.
+There is also some ambiguity within the dataset. For example, there is a few examples within the dataset in which multiple entities are matched. Within this case, we want our recording linkage algorithm to be able to find that the entities are similar enough rather than being confused by the small differences. In other words, we want our record linkage algorithm to be invariant to such noise within the data.
 
 ![Example of Ambiguity within the dataset](./images/abt_buy_counter_example.png)
 
-...**Wesley**
-
 ## DBLP-ACM
 
-...**Wesley**
+This dataset comprises of two datasets: one with 2614 entries and one with 2294 entries. Both datasets contain columns with unique IDs, titles of books, authors, venue, and year. Aside from the year, the data in these two datasets is textual. Between the 2 datasets, there are 2224 ground truth matches. This dataset is extremely clean, with very little missingness. The only form of missingness arises from the authors column in one of the datasets, with 0.06% of data missing. A quick EDA through the matches also shows that this dataset only has 1-to-1 links between the two datasets.
+
+![A Glance at the Dataset](./images/dblp-acm-example.png)
 
 ## DBLP-Scholars
 
-...**Wesley**
+Similar to the DBLP-ACM dataset, this is a dataset with books, authors, and venues. One dataset contains 2616 entries while the other contains 64,263 entries - this is notably larger than the previous dataset. As with the DBLP-ACM dataset, both datasets in this dataset contains IDs, titles of books, authors, venue, and year. However, unlike the previous dataset, this one contains a high degree of missingness, particularly in the venue and year columns, which makes it difficult to utilize those columns in creating useful features to link entities between the two datasets together. Performing entity resolution in this dataset will require use of primarily the title and authors columns.
+
+| DBLP Table NaN's      | Scholar Table NaN's          |
+| ------------- |:-------------:|
+| ![DBLP Table](./images/dblp_nans.png){ width=30% }     | ![Scholar Table](./images/scholar_nans.png){ width=30% }|
+
+With this dataset, there are 5347 ground truth matches. Unlike the previous dataset, there are many 1-to-many links between entities, though this should be clear as there are almost twice as many matches as entities in one of the datasets.
 
 ## Amazon-Google Products
 
-...**Wesley**
+This dataset is similar to the Abt-Buy dataset, containing two datasets, one from Amazon and one from Google, where each row is a product. The Amazon dataset contains 1363 entries, while the Google dataset contains 3226 entries. Each dataset has columns with IDs, titles/names of products, description of the product, manufacturer, and price. In the Google dataset, there's a high number of missing values in the manufacturer column (nearly all of it is missing).
+
+| Amazon Table NaN's      | Google Table NaN's          |
+| ------------- |:-------------:|
+| ![Amazon Table](./images/amazon_nans.png){ width=30% }     | ![Google Table](./images/google_nans.png){ width=30% }|
+
+Like the Abt-Buy dataset, the majority of the data is textual, with the exception of price. The main objective to perform entity linkage would be perform text processing methods on the description columns. In this dataset, there are 1300 ground truth matches, with 1113 unique Amazon IDs and 1291 unique Google IDs, meaning there are 1-to-many entity matches. Unlike the book/author datasets, the titles/names of products between the two datasets rarely match each other exactly, which again reinforces the intuition that the desciption column would have to be heavily utilized to perform effective entity resolution.
+
+![Product Matches from Both Datasets](./images/amazon_google_matches.png)
+
+## Baseline Models
+
+Using the smaller datasets, we made some baseline models that did not depend on graphs. We used the Amazon-Google, DBLP-ACM, and DBLP Scholars dataset. Unsurprisingly, the baseline models depended heavily on the cleanliness of the datasets, as basic features, such as checking if the titles of books matched, were used. In all of the baselines, we used the ground truth matches as positive examples and randomly sampled an equal number of negative examples.
+
+With the DBLP-ACM dataset, the baseline was performed by checking the lower case titles from both datasets, as well as checking the year, to determine whether entities matched. Since the dataset has no missing values in either of these columns, this baseline performed extremely well, getting 100% accuracy. This is to be expected given the lack of missingness as well as the lack of 1-to-many entity matches. Clearly, the data we will be using for our final implementation will not be this clean, and therefore this simplistic baseline should not perform nearly as well.
+
+With the DBLP-Scholar dataset, the baseline was performed by just checking the lower case titles from both datasets, as the year column has a large number of missing values. While the baseline gets every negative example correct, it only gets 47% of positive examples, for a total accuracy of 73%. With a single feature, this baseline performs poorly, but it is interesting to note that simply comparing lower case titles will achieve high accuracy on negative examples.
+
+Lastly, with the Amazon-Google dataset, the baseline was performed by checking the lower case name/title of products. This performed atrociously, getting 3.3% accuracy on positive examples, while getting all of the negative examples correct, for a total accuracy of 51%. This is to be expected, as names and titles of products between Amazon and Google are rarely exactly match. Like the DBLP-Scholar baseline, it is interesting to note that simply comparing names of products will net a high accuracy on negative examples.
 
 ## Graph Descriptions
 
 ![Degree Frequency across 4 datasets](./images/node_frequency_all_four.png){ width=50% }
 
-After creating the heterogenous graphs, we looked into describing the properties of the graph's nodes. We looked into finding descriptive statistics on each of the datasets seperately, as well as a unified analysis between the four datasets. The four datasets are considerably smaller than the large dataset we will work with. However, they are also very similar to the large dataset we will be using in that they are very heavy on textual data. This will allow us to test our model on a scaled down version of the problem, which will allow us to iterate quickly before testing on the larger dataset, which we anticipate to be computationally much more expensive.
+After creating the heterogenous graphs, we looked into describing the properties of the graph's nodes. We looked into finding descriptive statistics on each of the datasets separately, as well as a unified analysis between the four datasets. The four datasets are considerably smaller than the large dataset we will work with. However, they are also very similar to the large dataset we will be using in that they are very heavy on textual data. This will allow us to test our model on a scaled down version of the problem, which will allow us to iterate quickly before testing on the larger dataset, which we anticipate to be computationally much more expensive.
 
 \pagebreak
 
@@ -112,7 +136,7 @@ Within this dataset, we found that this seems to be relating electronic products
 | :-------------: |:-------------:|:-------------: |:-------------:|
 | ![About Table](./images/dblp_acm_graph_degree_dist.png){ width=100% }     | ![Buy Table](./images/dblp_acm_graph_edge_frequency.png){ width=100% }| ![Buy Table](./images/dblp_scholar_edge_frequency.png){ width=100% }| ![About Table](./images/dblp_scholar_degree_dist.png){ width=100% }|
 
-These are two related datasets with the task of relating an author with a paper. The primary difference within the two datasets is the importance placed on the decription compared to the other node types. As you can see from above, the DBLP-Scholars dataset has relatively more information stored within the venue and year columns compared to the DBLP-ACM dataset. These datasets are, in terms of content and statistics, the related to the large dataset we will work with. This means that this will likely act as the primary dataset we will like to test on before scaling up to the large datast.
+These are two related datasets with the task of relating an author with a paper. The primary difference within the two datasets is the importance placed on the description compared to the other node types. As you can see from above, the DBLP-Scholars dataset has relatively more information stored within the venue and year columns compared to the DBLP-ACM dataset. These datasets are, in terms of content and statistics, the related to the large dataset we will work with. This means that this will likely act as the primary dataset we will like to test on before scaling up to the large dataset.
 
 
 ### Amazon-Google Products
