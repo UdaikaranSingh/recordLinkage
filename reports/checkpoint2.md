@@ -41,13 +41,16 @@ Number of instances in the conference dataset - 15,151
 
 The paper, author and paper-author datasets, that are very important for our problem, varying degrees of missingness for each of its columns.
 
-![null values in author dataset](./images/author-dataset-null.PNG)
+![null values in author dataset](./images/author-dataset-null.PNG){ width=30% }
+
 As shown by the above bar chart, the authors dataset has the highest number of missing values(60%) in the affiliation column. The name column comes in second with only 7 percent of its data missing. The ID column has no missing values.
 
-![null values in paper dataset](./images/paper-dataset-null.PNG)
+![null values in paper dataset](./images/paper-dataset-null.PNG){ width=30% }
+
 The paper dataset has the highest number of missing values(76%) in the keyword column. The title column has the second highest number of missing values with 7% of its data missing. The other columns do not have any missing values.
 
-![null values in paper-author dataset](./images/paper-author-dataset-null.PNG)
+![null values in paper-author dataset](./images/paper-author-dataset-null.PNG){ width=30% }
+
 The affiliation column in the paper-author dataset has the highest number of missing values(65%). The only other column in the dataset that has any missing values is Name. Only 0.002 percent of the Name attribute is missing.
 
 The missing values in the columns will play large part as more missing values result in it being harder to classify a link between records.
@@ -69,13 +72,13 @@ This dataset is two separate datasets of with 1081 and 1092 instances of purchas
 
 There is also some ambiguity within the dataset. For example, there is a few examples within the dataset in which multiple entities are matched. Within this case, we want our recording linkage algorithm to be able to find that the entities are similar enough rather than being confused by the small differences. In other words, we want our record linkage algorithm to be invariant to such noise within the data.
 
-![Example of Ambiguity within the dataset](./images/abt_buy_counter_example.png)
+![Example of Ambiguity within the dataset](./images/abt_buy_counter_example.png){ width=50% }
 
 ## DBLP-ACM
 
 This dataset comprises of two datasets: one with 2614 entries and one with 2294 entries. Both datasets contain columns with unique IDs, titles of books, authors, venue, and year. Aside from the year, the data in these two datasets is textual. Between the 2 datasets, there are 2224 ground truth matches. This dataset is extremely clean, with very little missingness. The only form of missingness arises from the authors column in one of the datasets, with 0.06% of data missing. A quick EDA through the matches also shows that this dataset only has 1-to-1 links between the two datasets.
 
-![A Glance at the Dataset](./images/dblp-acm-example.png)
+![A Glance at the Dataset](./images/dblp-acm-example.png){ width=50% }
 
 ## DBLP-Scholars
 
@@ -97,7 +100,7 @@ This dataset is similar to the Abt-Buy dataset, containing two datasets, one fro
 
 Like the Abt-Buy dataset, the majority of the data is textual, with the exception of price. The main objective to perform entity linkage would be perform text processing methods on the description columns. In this dataset, there are 1300 ground truth matches, with 1113 unique Amazon IDs and 1291 unique Google IDs, meaning there are 1-to-many entity matches. Unlike the book/author datasets, the titles/names of products between the two datasets rarely match each other exactly, which again reinforces the intuition that the desciption column would have to be heavily utilized to perform effective entity resolution.
 
-![Product Matches from Both Datasets](./images/amazon_google_matches.png)
+![Product Matches from Both Datasets](./images/amazon_google_matches.png){ width=50% }
 
 ## Baseline Models
 
@@ -109,19 +112,20 @@ With the DBLP-Scholar dataset, the baseline was performed by just checking the l
 
 Lastly, with the Amazon-Google dataset, the baseline was performed by checking the lower case name/title of products. This performed atrociously, getting 3.3% accuracy on positive examples, while getting all of the negative examples correct, for a total accuracy of 51%. This is to be expected, as names and titles of products between Amazon and Google are rarely exactly match. Like the DBLP-Scholar baseline, it is interesting to note that simply comparing names of products will net a high accuracy on negative examples.
 
+\pagebreak
+
 ## Graph Descriptions
 
 ![Degree Frequency across 4 datasets](./images/node_frequency_all_four.png){ width=50% }
 
 After creating the heterogenous graphs, we looked into describing the properties of the graph's nodes. We looked into finding descriptive statistics on each of the datasets separately, as well as a unified analysis between the four datasets. The four datasets are considerably smaller than the large dataset we will work with. However, they are also very similar to the large dataset we will be using in that they are very heavy on textual data. This will allow us to test our model on a scaled down version of the problem, which will allow us to iterate quickly before testing on the larger dataset, which we anticipate to be computationally much more expensive.
 
-\pagebreak
 
 ### Abt-Buy Dataset
 
 |Graph Degree Frequency|Graph Edge Frequency  |
 | :-------------: |:-------------:|
-| ![About Table](./images/abt_buy_degree_dist.png){ width=50% }     | ![Buy Table](./images/abt_buy_edge_frequency.png){ width=50% }|
+| ![About Table](./images/abt_buy_degree_dist.png){ width=30% }     | ![Buy Table](./images/abt_buy_edge_frequency.png){ width=30% }|
 
 Within this dataset, we found that this seems to be relating electronic products with based on a name and description. This can be seem above, which shows that there is a high cardinality within the name and description embeddings. Also, as you can see below, there seems to be some overlap within the words for the columns. We can use this heuristic when refining our graphs to match overlapping words. For example, if the word 'black' occurs within the name of 1 entity, as well as the description of the a 2nd entity, we want our model to detect this link. In a probabilistic sense, this related term within the two entities should be detected as improving the chances of a matching entity. Lastly, it seems that this dataset will primary test the ability of the model to detect common words between columns using the graph embedding.
 
@@ -143,12 +147,12 @@ These are two related datasets with the task of relating an author with a paper.
 
 |Graph Degree Frequency|Graph Edge Frequency  |
 | :-------------: |:-------------:|
-| ![About Table](./images/amazon_google_degree_dist.png){ width=50% }     | ![Buy Table](./images/amazon_google_edge_frequency.png){ width=50% }|
+| ![About Table](./images/amazon_google_degree_dist.png){ width=30% }     | ![Buy Table](./images/amazon_google_edge_frequency.png){ width=30% }|
 
 
 This dataset is based on relating the product descriptions between the product descriptions within Google and Amazon. This looks similar to the Abt-Buy dataset, in that they are both heavily on textual data and are looking at a related topic of technology. As you can see below, our textual embedding has found nodes with common electronic terms. Also, this seems to have limited stop words, which means that our embedding looks to be meaningful in service of the task of characterizing an item within the dataset.
 
-![Example Amazon Description](./images/amazon_descriptions.png){ width=50% }
+![Example Amazon Description](./images/amazon_descriptions.png){ width=30% }
 
 
 \pagebreak
