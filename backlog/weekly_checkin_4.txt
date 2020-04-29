@@ -1,0 +1,15 @@
+Attempted Tasks:
+	– Acquire new datasets
+	- Perform EDA on datasets and generate heterogenous graphs
+	- Finish checkpoint 2 report
+
+Completed:
+	- Found an author paper linkage dataset from Kaggle as well as 4 smaller linkage datasets to test model implementation
+	- Performed EDA on smaller datasets and made baseline models
+	- Peformed EDA on author paper dataset
+
+Difficulties:
+	-
+
+Tasks for coming week:
+	-
