@@ -36,7 +36,7 @@ def build_abt_buy_graph(config):
 	gE.defineKeys(Abt, 'id')
 	gE.defineKeys(Buy, 'id')
 
-	#gE.defineTruth(truth)
+	gE.defineTruth(truth)
 
 	gE.embeddText([Abt,Buy], 'id','name','name', min_df=name_min_df)
 
@@ -67,7 +67,7 @@ def build_dblp_acm_dataset(config):
 
 	gE.defineKeys(dblp2, 'id')
 	gE.defineKeys(acm, 'id')
-	#gE.defineTruth(matchings)
+	gE.defineTruth(matchings)
 
 	gE.embeddText([dblp2,acm], 'id','title','title', min_df=name_min_df)
 	gE.embeddText([dblp2,acm], 'id','authors','authors', min_df=name_min_df)
@@ -98,7 +98,7 @@ def build_dblp_scholar_dataset(config):
 	print("checkpoint 1")
 	gE.defineKeys(dblp1, 'id')
 	gE.defineKeys(scholar, 'id')
-	#gE.defineTruth(matchings)
+	gE.defineTruth(matchings)
 
 	print("checkpoint 2")
 	gE.embeddText([dblp1,scholar], 'id','title','title', min_df=text_min_df)
@@ -136,7 +136,7 @@ def build_amazon_google_dataset(config):
 
 	gE.defineKeys(amazon, 'id')
 	gE.defineKeys(google, 'id')
-	#gE.defineTruth(matchings)
+	gE.defineTruth(matchings)
 
 	gE.embeddText([amazon,google], 'id','title','title', min_df=name_min_df)
 	gE.embeddText([amazon,google], 'id','description','description', min_df=text_min_df)

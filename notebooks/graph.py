@@ -4,8 +4,9 @@ import random
 
 
 class Graph():
-    def __init__(self, nx_G, is_directed, p, q):
+    def __init__(self, nx_G, nodes, is_directed, p, q):
         self.G = nx_G
+        self.nodes = nodes
         self.is_directed = is_directed
         self.p = p
         self.q = q
@@ -42,7 +43,7 @@ class Graph():
         '''
         G = self.G
         walks = []
-        nodes = list(G.nodes())
+        nodes = list(self.nodes)
         print('Walk iteration:')
         for walk_iter in range(num_walks):
             print(str(walk_iter+1), '/', str(num_walks))
