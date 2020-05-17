@@ -8,7 +8,7 @@
 	"testProp": 0.3,
 	"p": 1,
 	"q":1,
-	"numWalks": 1000,
+	"numWalks": 500,
 	"adjustmentParam": 20,
 	"walkLength": 10,
 	"outputVectorSize": 300,
