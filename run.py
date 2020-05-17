@@ -3,6 +3,7 @@ import json
 import os
 from src.data.DatasetGenerator import generateDataset
 from src.FeatureExtraction.graphCreation import *
+from src.learningPipeline.machineLearningPipeline import *
 
 def main(targets):
 
@@ -28,13 +29,15 @@ def main(targets):
 		build_amazon_google_dataset(config)
 		print("Finished amazon_google Dataset")
 
-	if "test" in targets:
+	if "test-project" in targets:
 		configPath = './config/test_config.json'
 		with open(configPath) as f:
 			config = json.load(f)
 		f.close()
 
 		build_abt_buy_graph(config)
+		train(config)
+
 
 	pass
 
