@@ -37,7 +37,7 @@ The pipeline for our model can be fundamentally broken down into 3 major steps: 
 
 ## Graph Embedding
 
-For our graph embedding model, we embedded the 
+For our graph embedding model, we embedded the tabular data into a heterogenous graph
 
 ### Ordinal and Categorical Columns
 
@@ -73,9 +73,11 @@ For our graph embedding model, we embedded the
 
 # Discussion
 
--- Udai/Wesley
+-- Wesley
 
 \End{multicols}
+
+
 
 # References
 
@@ -84,3 +86,36 @@ For our graph embedding model, we embedded the
 # Appendix
 
 -- Everybody
+
+
+\pagebreak
+
+### Revision to the Proposal
+
+**To Fill IN**
+
+### Backlog:
+
+- For Checkpoint 1:
+	- All members - revised proposal
+	- Udai: Create code for generating datasets with strong keys (and varying noise)
+	- Shinu: Clean and perform EDA on our real-world datasets
+	- Wesley: Finalize Structure of our Heterogenous Graphs
+		- determine method for representing graphs (on disk)
+		- determine method for using quantitative attributes.
+
+- For Checkpoint 2:
+	- Generate Heterogenous Graphs (Udai)
+	- Train baselines Models (Wesley)
+		- perform tests over a subset of generated datasets
+	- Clean real dataset and transform in a usable format (Shinu)
+	- Stretch Goal: Train/Evaluate Hindroid Model using our data (everyone)
+
+- For checkpoint 3:
+	- Generate Heterogenous graphs for Author Disambiguation dataset. (Shinu)
+	- Train and evaluate Hindroid model on the datasets. (Everyone)
+	- Finalize elevator pitch (Everyone)
+	- Finalize visual presentation (Everyone)
+
+- For Final Submission:
+	- **To Fill IN**
