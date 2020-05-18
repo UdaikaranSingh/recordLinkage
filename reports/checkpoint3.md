@@ -174,6 +174,8 @@ The emperical results show so far our pipeline is able to perform close to the p
 
 # Appendix
 
+Node2Vec Implementation We Used: https://github.com/aditya-grover/node2vec
+
 ![Node2Vec Algorithm](./images/node2vec_algo.png){ width=50% }
 
 
