@@ -186,7 +186,7 @@ Node2Vec Implementation We Used: https://github.com/aditya-grover/node2vec
 
 ### Revision to the Proposal
 
-**To Fill IN**
+No revisions.
 
 ### Backlog:
 
