@@ -7,6 +7,11 @@ from src.learningPipeline.machineLearningPipeline import *
 
 def main(targets):
 
+	if not os.path.exists('./data'):
+		os.mkdir('data')
+	if not os.path.exists('./data/gen'):
+		os.mkdir('data/gen')
+
 	if "gen-data" in targets:
 		configPath = './config/datasetGenConfig.json'
 		with open(configPath) as f:
