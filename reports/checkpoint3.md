@@ -6,10 +6,16 @@ header-includes:
     - \usepackage{multicol}
     - \usepackage{amsmath}
     - \newcommand{\hideFromPandoc}[1]{#1}
+    - \hideFromPandoc{
+        \let\Begin\begin
+        \let\End\end
+      }
 ---
 
 
-# Abstract
+\begin{center}
+
+\textbf{Abstract}
 
 -- Shinu
 
@@ -17,7 +23,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
+\end{center}
 
+
+
+\Begin{multicols}{2}
 
 # Introduction
 
@@ -111,34 +121,38 @@ A shortlist of hyperparameters associated with our model is:
 
 This large amount of hyperparameters make it difficult to gauge the results of our model and to debug the pipeline.
 
+\End{multicols}
+\pagebreak
+
+| Dataset        | Model           | Training Accuracy  | Test Accuracy  | Baseline Accuracy
+| :-------------: |:-------------:| :-----:| :-----:| :-----:|
+| Abt-Buy      | SVM | 97% | 73% | 92% |
+| -      | AdaBoost      |   78% | 72% | - |
+| DBLP-ACM      | SVM | - | - | - |
+| -      | AdaBoost      |   - | - | - |
+| DBLP-Scholars      | SVM | - | - | - |
+| -      | AdaBoost      |   - | - | - |
+| Amazon-Google Products      | SVM | - | - | - |
+| -      | AdaBoost      |   - | - | - |
+| Author Report      | SVM | - | - | - |
+| -      | AdaBoost      |   - | - | - |
+
+\Begin{multicols}{2}
 
 # Results
 
 ## Emperical Results
 
+The emperical results show so far our pipeline is able to perform close to the performance of the baseline model, but is still considerably lagging behind. It is currently difficult to interpret whether these results are due to a flaw within the model or due to improper hyperparameter tuning.
 
-| Right | Left | Default | Center |
-|------:|:-----|---------|:------:|
-|   12  |  12  |    12   |    12  |
-|  123  |  123 |   123   |   123  |
-|    1  |    1 |     1   |     1  |
-
-
-
-
-**Add a table of the results for the different models as well as the baselines**
-**It is ok to have the table be mostly empty**
-
-## Qualititative Results
-
-**Note: leave a placeholder for the space for the larger results.**
-
--- Udai
+**Will place more information as results come in and fill out table as more information comes in**
+**Will also show information about hyperparameter tuning as results come in**
 
 # Discussion
 
 -- Wesley
 
+\End{multicols}
 
 \pagebreak
 
