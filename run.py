@@ -40,7 +40,7 @@ def main(targets):
 			config = json.load(f)
 		f.close()
 
-		build_abt_buy_graph(config)
+		build_abt_buy_graph2(config)
 		train(config)
 
 

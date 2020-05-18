@@ -48,6 +48,40 @@ def build_abt_buy_graph(config):
 
 	gE.saveGraph(fname = os.path.join(outpath,"abt_buy_graph.csv"))
 
+def build_abt_buy_graph2(config):
+	outpath = config['outpath']
+	bins = config["bins"]
+	name_min_df = config['name_min_df']
+	text_min_df = config['text_min_df']
+
+	pt1 = "./test/Abt-Buy/Abt.csv"
+	pt2 = "./test/Abt-Buy/Buy.csv"
+	pt3 = "./test/Abt-Buy/abt_buy_perfectMapping.csv"
+
+	Abt = pd.read_csv(pt1, engine = 'python')
+	Buy = pd.read_csv(pt2, engine = 'python')
+	truth = pd.read_csv(pt3)
+
+	Abt['price'] = pd.to_numeric(Abt.price.apply(fixPrice))
+	Buy['price'] = pd.to_numeric(Buy.price.apply(fixPrice))
+
+	gE = graphEmbedder()
+
+	gE.defineKeys(Abt, 'id')
+	gE.defineKeys(Buy, 'id')
+
+	gE.defineTruth(truth)
+
+	gE.embeddText([Abt,Buy], 'id','name','name', min_df=name_min_df)
+
+	gE.embeddText([Abt,Buy], 'id','description','description', min_df = text_min_df)
+
+	gE.embeddOrdinal([Abt,Buy],'id','price','price', bins = bins)
+
+	gE.embeddCategorical([Buy], 'id', 'manufacturer', 'manufacturer')
+
+	gE.saveGraph(fname = os.path.join(outpath,"abt_buy_graph.csv"))
+
 def build_dblp_acm_dataset(config):
 
 	outpath = config['outpath']
