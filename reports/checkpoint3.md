@@ -17,8 +17,6 @@ header-includes:
 
 \textbf{Abstract}
 
--- Shinu
-
 Record linkage is the process of relating entities within different datasets. The primary uses for record linkage is entity resolution, which allows for efficient joining between multiple heterogenous relations that do not have a clear discriminatory key and removes duplicates from a single relation. We look to represent this problem as an binary edge prediction problem on heterogenous graphs assuming that the dataset contains distinct pairs. Our approach involves converting datasets into graph embeddings, applying node2vec and training traditional machine learning models in order to find appropriate matches between datasets. This approach should enable sophisticated relationships between entities to be preserved. The result of our models currently lags behind the baseline however, it is approaching the baseline.
 
 \end{center}
