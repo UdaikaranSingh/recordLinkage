@@ -111,6 +111,8 @@ With the artificial dataset, our graphs will be defined based on the parameters 
 
 ### Works Cited:
 
+
+
 1. https://www.cse.ust.hk/~yqsong/papers/2017-KDD-HINDROID.pdf
 2. http://archive.ics.uci.edu/ml/datasets/Record+Linkage+Comparison+Patterns
 
