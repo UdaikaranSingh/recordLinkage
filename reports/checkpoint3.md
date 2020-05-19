@@ -17,8 +17,6 @@ header-includes:
 
 \textbf{Abstract}
 
--- Shinu
-
 Record linkage is the process of relating entities within different datasets. The primary uses for record linkage is entity resolution, which allows for efficient joining between multiple heterogenous relations that do not have a clear discriminatory key and removes duplicates from a single relation. We look to represent this problem as an binary edge prediction problem on heterogenous graphs assuming that the dataset contains distinct pairs. Our approach involves converting datasets into graph embeddings, applying node2vec and training traditional machine learning models in order to find appropriate matches between datasets. This approach should enable sophisticated relationships between entities to be preserved. The result of our models currently lags behind the baseline however, it is approaching the baseline.
 
 \end{center}
@@ -151,7 +149,9 @@ The emperical results show so far our pipeline is able to perform close to the p
 
 # Discussion
 
--- Wesley
+While we have not obtained major empirical results with our approach yet, we that this is a well-formed method of tackling record linkage. So far, we have results on a small test dataset that shows progress made using our techniques. Prior work in this space has included heterogeneous information networks, but use other methods such as linguistic and natural language processing methods to see if two instances co-refer to the same entity or use other mathematical models such as Bayesian Networks. In comparison, we use a context-based approach, as we believe this can represent hidden complexities and semantics within our graph in a way that other approaches do not. Our results can have an impact in both industry and academia, as joining large datasets becomes an increasingly common problem within this era of “big data.” The methods we used should be broadly applicable to any dataset, as our methods are laid out in a general sense. Our work can also be used as a starting point for researchers that are interested in using context-based approaches for entity recognition (approaches that are perhaps not node2vec).
+
+Even though we do not have all of the results of the model yet, we can still look at ways to improve what we have accomplished. There are limitations in our method and there are many improvements that can be made. In creating features with our graph embeddings, we can opt to use more complex techniques, such as using natural language processing approaches rather than bag-of-words. Representing qualitative data can also be improved – for example, there can be “closeness” thresholds and metrics that can determine whether qualitative variables from different instances can be from the same entity. These types of improvements can give a richer representation of the data to the machine learning model and thus, output better results. Hyperparameter tuning is another aspect of our work that can be improved – we note that there are several parameters to tune, beginning at the graph embedding level when we make the features to the machine learning level, where we choose parameters for our models. Clearly, there are aspects that can be manipulated and tweaked at each level, which may improve performance.
 
 \End{multicols}
 
@@ -171,6 +171,8 @@ The emperical results show so far our pipeline is able to perform close to the p
 9. http://sites.bu.edu/jbor/files/2018/10/Building-the-Cohort-10oct2018-1.pdf
 10. https://www.cse.ust.hk/~yqsong/papers/2017-KDD-HINDROID.pdf
 11. https://cs.stanford.edu/~jure/pubs/node2vec-kdd16.pdf
+12. https://link.springer.com/content/pdf/10.1007%2F978-3-540-69534-9_41.pdf
+13. http://www.dit.unitn.it/~p2p/RelatedWork/Matching/713.pdf
 
 
 # Appendix
@@ -184,7 +186,7 @@ Node2Vec Implementation We Used: https://github.com/aditya-grover/node2vec
 
 ### Revision to the Proposal
 
-**To Fill IN**
+No revisions.
 
 ### Backlog:
 
@@ -210,4 +212,6 @@ Node2Vec Implementation We Used: https://github.com/aditya-grover/node2vec
 	- Finalize visual presentation (Everyone)
 
 - For Final Submission:
-	- **To Fill IN**
+	- Train models on the smaller datasets (especially DBLP ones) (Shinu / Wesley)
+  - Create graphs and train models on Author Disambiguation dataset (everyone)
+  - Obtain final results for all models and update report (everyone)
