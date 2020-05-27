@@ -139,16 +139,16 @@ This large amount of hyperparameters make it difficult to gauge the results of o
 
 | Dataset        | Model           | Test Accuracy  | Baseline Accuracy | Test Precision | Test Recall |
 | :-------------: |:-------------:| :-----:| :-----:| :-----:|:-----:|
-| Abt-Buy      | SVM     | 73% | 92% | - | - |
-| -      | AdaBoost      | 78% | 72% | - | - |
-| DBLP-ACM      | SVM    | - | - | - | - |
-| -      | AdaBoost      | - | - | - | - |
-| DBLP-Scholars    | SVM | - | - | - | - |
-| -      | AdaBoost      | - | - | - | - |
-| Amazon-Google Products | SVM | - | - | - | - |
-| -      | AdaBoost      |   - | - | - | - |
-| Author Report          | SVM | - | - | - | - |
-| -      | AdaBoost      |   - | - | - | - |
+| Abt-Buy                | SVM      | 73% | 92% | 82% | 66% |
+| -                      | AdaBoost | 78% | - | 79% | 76% |
+| DBLP-ACM               | SVM      | 81% | 100% | 80% | 82% |
+| -                      | AdaBoost | 73% | - | 63% | 81% |
+| DBLP-Scholars          | SVM      | 71% | 73% | 73% | 69% |
+| -                      | AdaBoost | 65% | - | 62% | 69% |
+| Amazon-Google Products | SVM      | 74% | 51% | 70% | 80% |
+| -                      | AdaBoost | 65% | - | 62% | 70% |
+| Author Report          | SVM      | - | - | - | - |
+| -                      | AdaBoost |   - | - | - | - |
 
 *Note: the test set used for the baseline model and our model was the same set of samples.*
 
@@ -163,6 +163,7 @@ The emperical results show so far our pipeline is able to perform close to the p
 ## Node2Vec Embeddings
 
 **TODO: add some visualization and explanation of the node2vec implementation**
+**Place the plot here; Also, look at the ranking of similar words and create histogram**
 
 # Discussion
 
