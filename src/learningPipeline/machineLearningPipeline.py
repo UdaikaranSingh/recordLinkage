@@ -10,6 +10,7 @@ from src.learningPipeline.Corpus import Corpus
 from src.learningPipeline.Model import Model
 from sklearn.svm import SVC
 from sklearn.ensemble import AdaBoostClassifier
+from sklearn.metrics import precision_recall_fscore_support
 
 print("Gensim Version is correct: {}".format(gensim.models.doc2vec.FAST_VERSION > -1))
 
@@ -52,10 +53,13 @@ def train(config):
 
 	trainScore = model.score(data, df.label)
 	testScore = model.score(data2, df2.label); testScore = max(testScore, 1-testScore)
+	test_pred = model.predict(data2)
+	other_scores = precision_recall_fscore_support(df2.label, test_pred, average=None)
 
 	toWrite = "Model Path{}\nEmbedding Path:{}\nTraining Set Score:{}\nTest Set Score:{}".format(modelLoc,embedderloc,trainScore, testScore + adP)
 	with open(resultLoc, "w") as f:
 		f.write(toWrite)
+		f.write(str(other_scores))
 	f.close()
 	mdl.save(embedderloc)
 
