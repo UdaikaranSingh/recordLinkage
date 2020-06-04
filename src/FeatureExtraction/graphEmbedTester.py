@@ -1,3 +1,7 @@
+"""
+Testing file for the graph embedding.
+"""
+
 from src.FeatureExtraction.GraphEmbedder import graphEmbedder
 import pandas as pd
 import numpy as np

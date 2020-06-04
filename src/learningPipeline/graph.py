@@ -1,3 +1,8 @@
+"""
+Note: heavily taken from the Noe2vec implementation by Aditya Grover
+src: https://github.com/aditya-grover/node2vec
+"""
+
 import numpy as np
 import networkx as nx
 import random

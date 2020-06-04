@@ -4,8 +4,16 @@ import numpy as np
 import math
 import json
 
+"""
+Data Generation Class.
+Purpose is to allow for the generation of artificial datasets for testing the pipeline
+"""
 class datasetGenerator:
     
+    """
+    Constructor.
+    Requires config dictionary defining the parameters of data generation.
+    """
     def __init__(self, config):
         self.config = config
         self.row_num = config['row_num']
@@ -27,7 +35,12 @@ class datasetGenerator:
     def padValue(self, x, tokenLength):
         temp = x + '0' * (tokenLength - len(x))
         return temp
-        
+    
+    """
+    This creates the dataset
+    First defines the strong key columns.
+    Then generates the weak columns based on a conditional distribution of previous column.
+    """
     def createDataset(self):
         self.dataset1 = pd.DataFrame()
         self.dataset2 = pd.DataFrame()
@@ -54,6 +67,9 @@ class datasetGenerator:
                     self.dataset2[0] = weakCols[i]
         pass
     
+    """
+    Helper Method to create strong key columns
+    """
     def createStrongCol(self):
         temp1 = [str(i) for i in np.arange(self.row_num)]
         temp2 = [str(i) for i in np.arange(self.row_num, 2*self.row_num)]
@@ -64,6 +80,9 @@ class datasetGenerator:
         return cols
         pass
     
+    """
+    Helper Method to split the strong keys to the 2 tables.
+    """
     def splitStrongColumns(self, col1, col2):
         cols = []
         iterLength = math.ceil(self.tokenLength/self.strong_col_num)
@@ -80,6 +99,9 @@ class datasetGenerator:
         
         return cols
     
+    """
+    Helper Method to create weak key columns
+    """
     def createWeakCol(self, oldColumn):
         #note: creates 2 columns: 1 for each dataset
         
@@ -111,7 +133,10 @@ class datasetGenerator:
                 col2.append(np.random.choice(dist[oldColumn[i]]))
                 
         return (np.array(col1), np.array(col2))
-    
+
+    """
+    Wrapper function for generating weak key columns
+    """
     def weakColWrapper(self, n):
         #create 1 fully random column
         cols = []
@@ -129,6 +154,9 @@ class datasetGenerator:
         
         return cols
     
+    """
+    Helper Method to save the dataset to disk
+    """
     def saveDataset(self):
         folders = os.listdir(self.saveLoc)
         if (len(folders) == 0): val = "0"

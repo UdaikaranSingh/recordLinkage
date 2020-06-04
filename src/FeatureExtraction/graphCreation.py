@@ -5,6 +5,9 @@ import os
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 import re
 
+"""
+Helper method for fixing a string for price into a float
+"""
 def fixPrice(x):
     if not (type(x)== float):
         try:
@@ -14,6 +17,9 @@ def fixPrice(x):
     else:
         return x
 
+"""
+Method for building graphs for abt_buy dataset.
+"""
 def build_abt_buy_graph(config):
 	outpath = config['outpath']
 	bins = config["bins"]
@@ -48,6 +54,10 @@ def build_abt_buy_graph(config):
 
 	gE.saveGraph(fname = os.path.join(outpath,"abt_buy_graph.csv"))
 
+
+"""
+Method for building graphs for abt_buy dataset.
+"""
 def build_abt_buy_graph2(config):
 	outpath = config['outpath']
 	bins = config["bins"]
@@ -82,6 +92,10 @@ def build_abt_buy_graph2(config):
 
 	gE.saveGraph(fname = os.path.join(outpath,"abt_buy_graph.csv"))
 
+
+"""
+Method for building graphs for dblp_acm dataset.
+"""
 def build_dblp_acm_dataset(config):
 
 	outpath = config['outpath']
@@ -111,6 +125,10 @@ def build_dblp_acm_dataset(config):
 
 	gE.saveGraph(fname =os.path.join(outpath,"dblp_acm_graph.csv"))
 
+
+"""
+Method for building graphs for dblp_scholar dataset.
+"""
 def build_dblp_scholar_dataset(config):
 
 	outpath = config['outpath']
@@ -146,6 +164,10 @@ def build_dblp_scholar_dataset(config):
 
 	gE.saveGraph(fname =os.path.join(outpath,"dblp_scholar_graph.csv"))
 
+
+"""
+Method for building graphs for amazon_google dataset.
+"""
 def build_amazon_google_dataset(config):
 
 	outpath = config['outpath']

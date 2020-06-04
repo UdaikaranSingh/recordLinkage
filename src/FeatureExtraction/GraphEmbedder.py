@@ -4,16 +4,26 @@ import os
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 import re
 
+"""
+Class for graph construction.
+note: misnamed as graphEmbedder
+"""
 class graphEmbedder:
     
     def __init__(self):
         self.entityNodes = set()
         self.Graphs = []
     
+    """
+    Creates nodes for id nodes
+    """
     def defineKeys(self,df,idCol):
         temp = set([str(x) for x in df[idCol]])
         self.entityNodes.update(temp)
     
+    """
+    Embeds Ordinal data
+    """
     def embeddOrdinal(self,dfs,idCol,column,name,bins=10, equalBinSize = True):
         df = pd.concat([df[[idCol,column]] for df in dfs])
         if equalBinSize: temp = pd.qcut(df[column], q = bins)
@@ -25,6 +35,9 @@ class graphEmbedder:
         self.Graphs.append((name,graph))
         return True
     
+    """
+    Embeds Textual data.
+    """
     def embeddText(self,dfs,idCol, column,name, min_df = 0.01, method = 'BagOfWords'):
         df = pd.concat([df[[idCol,column]] for df in dfs])
         temp = df[[idCol, column]]
@@ -46,17 +59,26 @@ class graphEmbedder:
         self.Graphs.append((name,graph))
         return True
     
+    """
+    Embeds Categorical data.
+    """
     def embeddCategorical(self,dfs,idCol,column,name):
         df = pd.concat([df[[idCol,column]] for df in dfs])
         graph = dict(df[[idCol,column]].to_numpy())
         self.Graphs.append((name,graph))
         return True
     
+    """
+    Creates edges defining true connections of id nodes
+    """
     def defineTruth(self, df):
         graph = dict(df.to_numpy())
         self.Graphs.append(('ground_truth',graph))
         return True
     
+    """
+    Method for saving the graph as a csv file.
+    """
     def saveGraph(self, method = 'csv', fname = os.path.join(os.getcwd(),'heteroGraph.csv')):
         df = pd.DataFrame(columns = ['source', 'target','type'])
         for graph in self.Graphs:
@@ -75,6 +97,9 @@ class graphEmbedder:
         df = pd.concat([df, df_temp])
         df.to_csv(os.path.join(os.getcwd(),fname), index = False)
     
+    """
+    Helper function for graph creation.
+    """
     def _graphFixer(self, dictionary):
         temp = []
         for key, value in dictionary.items():

@@ -7,7 +7,9 @@ from src.learningPipeline.graph import *
 import networkx as nx
 import random
 
-
+"""
+Class for loading and evaluating the node2vec model
+"""
 class Model:
     
     def __init__(self, corpus, embedder = None, model = None):

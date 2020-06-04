@@ -6,7 +6,12 @@ from gensim import utils
 from src.learningPipeline.graph import *
 import networkx as nx
 import random
+"""
+Class for generating random walks within the graph dataset.
+This is dependent on the graph class.
 
+The goal is to convert the csv file on disk into a usable graph for node2vec.
+"""
 class Corpus:
     
     def __init__(self, pt, groundTruth, testProp, p, q):
@@ -20,15 +25,24 @@ class Corpus:
         
         pass
     
+
+    """
+    Makes a split between training and test sets.
+
+    Then builds the appropriate graphs.
+    """
     def build(self, pt, testProp, groundTruth):
-        #note: temp1 is the training/test set; temp2 is the graph
+        
         df = pd.read_csv(pt).astype(str) 
         temp1 = pd.read_csv(groundTruth)
         print(list(temp1.columns))
         temp1 = self.generateNegativeSamples(temp1)
         self.trainTestSplit(temp1, testProp)
         self.buildGraph(df)
-    
+
+    """
+    This is for generating the negative samples (or false edges) within the graph
+    """
     def generateNegativeSamples(self,df):
         df['label'] = 1
         col1 = df.columns[0]
@@ -43,7 +57,10 @@ class Corpus:
         t['label'] = 0
         return pd.concat([t, df])
     
-    
+    """
+    This creates the splits within the single csv file into a training and test set.
+    The test set will be testProp% of the main dataset.
+    """
     def trainTestSplit(self, df, testProp):
         df = df.sample(len(df))
         nodes = set(df[df.columns[1]].values)
@@ -55,6 +72,9 @@ class Corpus:
         self.train = train
         self.test = test
     
+    """
+    This builds the graph based by loading into a networkX graph object
+    """
     def buildGraph(self, df):
         G=nx.Graph()
         
@@ -65,6 +85,9 @@ class Corpus:
         G.add_edges_from(edges, weight = 1)
         self.G = G
     
+    """
+    Wrapper method for all graph creation methods above.
+    """
     def generateCorpus(self):
         self.corpus = Graph(self.G, self.nodes, is_directed= False, p = self.p, q = self.q)
         self.corpus.preprocess_transition_probs()
