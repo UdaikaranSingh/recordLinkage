@@ -257,8 +257,17 @@ Also, we found that the SVM as the final classifier performs much better than th
 
 ## Node2Vec Embeddings
 
-**TODO: add some visualization and explanation of the node2vec implementation**
-**Place the plot here; Also, look at the ranking of similar words and create histogram**
+![Node2Vec Embedding w/ labels](./images/example_node2vec.png){ width=50% }
+
+Much of our method hinges on the idea that rows that are of the same object within each table will have a similar community of features. Because of this is supposed similar community, the node2vec algorithm will project nodes of similar objects into a similar vector (similarity would be based on Euclidean distance). However, much of hinges on the sampling pattern within the Node2vec algorithm that defines the samples of such communities. Althought our assumption is theoretically supported, the effectiveness is unclear.
+
+Figure 12 shows the embeddings of 500 randomly sampled terms. The embeddings were originally into a 500-dimensional space, but then projected into a two dimensional space using t-SNE. It is inherently difficult to validate whether this embedding is reasonable. However, an example to look towards is that the terms 'Apple' and 'macbook' are fairly close to each other. Althought this may be randomness, it indicates that there is a logic interpretation of the embeddings.
+
+Similarly, Figure 13 is an example of 500 random terms with the t-SNE projection into 2 dimensions. Visualizely, there doesn't seem to be any inherent forming. However, it is unclear whether clusters should be expected because there isn't a defined discrete groupings within the set of terms projected. So, from visual inspection, it is unclear whether this indicates the effectiveness of the node2vec algorithm for this problem.
+
+![Node2Vec Embedding w/o labels](./images/node2vec_500.png){ width=50
+% }
+
 
 # Discussion
 
