@@ -38,4 +38,7 @@ python3 test-project
 ---
 ## Configuration
 
+1. refer to ./config/datasetGenConfig.json to change the hyperparameters associated with the artificial dataset generation.
+2. refer to ./config/test_config.json and ./config/train_config.json to change the hyperparamters associated with generating the graphs and training the classifier.
+
 (add information about the configurations)
