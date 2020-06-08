@@ -15,3 +15,27 @@ To run the program, refer to the config folder for the parameters that can be ch
 For visualizations and testing can be found in the notebooks directory.
 
 The paper associated with this paper can be found [here](./reports/final_report.pdf)
+
+---
+## Example Code
+
+In order to generate the artificial dataset, you can use the command below:
+```
+python3 gen-data
+```
+
+In order to perform the graph construction, use the command:
+
+```
+python3 create-small-graphs
+```
+
+Lastly, in order to test any changes to the pipeline on example test, use the command:
+```
+python3 test-project
+```
+
+---
+## Configuration
+
+(add information about the configurations)
