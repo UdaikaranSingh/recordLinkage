@@ -17,7 +17,7 @@ header-includes:
 
 \textbf{Abstract}
 
-Record linkage is the process of relating entities within different datasets. The primary use for record linkage is entity resolution, which allows for efficient joining between multiple heterogenous relations that do not have a clear discriminatory key and removes duplicates from a single relation. We look to represent this problem as an binary edge prediction problem on heterogenous graphs assuming that the dataset contains distinct pairs. Our approach involves converting datasets into graph embeddings, applying node2vec and training traditional machine learning models in order to find appropriate matches between datasets. This approach should enable sophisticated relationships between entities to be preserved. Our results demonstrate that our model lags behind a naive baseline model, in that our model only surpasses the baseline model for a single dataset. However, we also found that our model tends to beats the naive model as our datasets scale up with our modeling achieving an accuracy of 79% compared to the 59% for the baseline.
+Record linkage is the process of relating entities within different datasets. The primary use for record linkage is entity resolution, which allows for efficient joining between multiple heterogenous relations that do not have a clear discriminatory key and removes duplicates from a single relation. We look to represent this problem as an binary edge prediction problem on heterogenous graphs assuming that the dataset contains distinct pairs. Our approach involves converting datasets into graph embeddings, applying node2vec and training traditional machine learning models in order to find appropriate matches between datasets. This approach should enable sophisticated relationships between entities to be preserved. Our results demonstrate that our model lags behind a naive baseline model, in that our model only surpasses the baseline model for a single dataset. However, we also found that our model tends to beat the naive model as our datasets scale up with our model achieving an accuracy of 79% compared to the 59% for the baseline.
 
 \end{center}
 
@@ -25,41 +25,41 @@ Record linkage is the process of relating entities within different datasets. Th
 # Introduction
 
 
-Record linkage is the process of relating entities within different datasets. An example of record linkage at a University would be relating the students within a department to the students within a class. This is made trivial by the fact that the school designates a distinct ID to each student. However, without this primary key, the task would become about using the features associated with each entry to relate the entities within each dataset.
+Record linkage is the process of finding records across different data sets that correspond to the same entity. An example of record linkage at a university would be relating the students within a department to the students within a class. This is made trivial by the fact that the school designates a distinct ID to each student. However, without this primary key, the task would become about using the features associated with each entry to relate the entities within each dataset.
 
 Our framework will look to represent this machine learning problem as an edge prediction problem on a heterogeneous graph. Although the record linkage problem can be used between entities within the same relation, we will focus primarily on the task of joining two distinct relations. The reason for this is that it constrains the problem statement, allowing us to focus on the methodology before seeking for a generalizable solution. Our heterogeneous graph representation will essentially be layers of graphs.
 
 We believe that the graphical representation will improve on traditional models of record linkage, because it allows for the expression of more complicated relationships between entities that a tabular model may not able to represent. Also, a graphical model is more modular, thus allowing for development within this project to be more easily generalizable. An example of how a graphical approach improves on a tabular is that adding multiple relations to the graph becomes more natural. Similarly, feature representation within a graphical framework is more flexible, such as representing an address based on its subparts (address, city, state, zip code). This allows for matching even in cases that there are errors within the relation, such as incorrect spelling or missing data.
 
-The graphical approach also allows us to leverage previous research within the field, such as using the techniques described in node2vec. An example could be using the idea of negative sampling to improve the size of the training data.
+The graphical approach also allows us to leverage previous research within the field, such as using the techniques described in Node2Vec. An example could be using the idea of negative sampling to improve the size of the training data.
 
 
 # Methods
 
 ## Overview
 
-The pipeline for our model can be fundamentally broken down into 3 major steps: (1) Graph Construction, (2) Node2Vec, and (3) a traditional machine learning model. The goal of the graph Construction is to take the data presented within a tabular format, and embed it within a heterogenous graph structure where the nodes represent the entities within the dataset and the features of the dataset. For example, in our implementation, we assigned a unique key to each row of the datasets. These key nodes would then form undirected edges to the features associated to that row within the dataset. Node2Vec would allow us to embed the nodes of the heterogenous graph within an Euclidean space that allows for a more natural mathematical interpretation of similarity.
+The pipeline for our model can be fundamentally broken down into 3 major steps: (1) Graph Construction, (2) Node2Vec, and (3) a traditional machine learning model. The goal of the graph construction is to take the data presented within a tabular format, and embed it within a heterogenous graph structure where the nodes represent the entities within the dataset and the features of the dataset. For example, in our implementation, we assigned a unique key to each row of the datasets. These key nodes would then form undirected edges to the features associated to that row within the dataset. Node2Vec would allow us to embed the nodes of the heterogenous graph within an Euclidean space that allows for a more natural mathematical interpretation of similarity.
 
 Lastly, the graph embedding from Node2Vec is used as a feature representation for a traditional machine learning model. We think that the record linkage problem should be seen as a binary task in which the goal is predict whether two entities are the same. Framing this problem as a binary task allows for a scalable and tractable framework for this task.
 
 ## Graph Construction
 
-For our graph contruction, we represent the tabular data into a heterogenous graph by translating each columns into discrete tokens.
+For our graph construction, we represent the tabular data into a heterogenous graph by translating each columns into discrete tokens.
 
-In our heterogenous graph, there are 3 subgraphs to store: $G_{EE}$, $G_{EA}$, and $G_{AA}$, which correspond to entity to entity, entity "is a" attribute, and attribute to attribute. In the figure below, there is an example of a $G_{EA}$, in which we have a unique entity node associated to a sample of attribute nodes. In the context of this problem, we would be treating $G_{EE}$ as being the ground-truth on which we are making our edge predictions. An edge would be formed between entities in the $G_{EE}$ in the case that those 2 entities represent the same object. 
+In our heterogenous graph, there are 3 subgraphs to store: $G_{EE}$, $G_{EA}$, and $G_{AA}$, which correspond to entity to entity, entity "is a" attribute, and attribute to attribute. In the figure below, there is an example of a $G_{EA}$, in which we have a unique entity node associated to a sample of attribute nodes. In the context of this problem, we would be treating $G_{EE}$ as being the ground-truth on which we are making our edge predictions. An edge would be formed between entities in the $G_{EE}$ in the case that those 2 entities represent the same object.
 
 ![Example Graph Embedding](./images/example_embedding.png){ width=50%}
 
 ### Ordinal and Categorical Columns
 
-In order to embed ordinal and categorical columns, we naturally treated these columns as dicrete values. For example, for the textual analysis, we used a bagofwords approach in which each word is tokenized and embedded as discrete values. For example, the sentence 'A blue car' would mean that the entity creates an edge to 'a', 'blue', and 'car' nodes. In the effort of not allowing the size of our graph to explode, we removes words that were highly common by creating a cap on document frequency of any token in our vocabulary. This document frequency cap ignores the words that show up in a large number of entities, thus likely being less predictive. In the example of textual embedding, we believe that a bag of words approach is reasonable. Our task is in principle pattern matching, therefore the content of the text is naturally more useful than the sentiment or syntax of the text. An example of textual embedding can be seen in the figure below.
+In order to embed ordinal and categorical columns, we naturally treated these columns as discrete values. For example, for the textual analysis, we used a bag-of-words approach in which each word is tokenized and embedded as discrete values. For example, the sentence 'A blue car' would mean that the entity creates an edge to 'a', 'blue', and 'car' nodes. In the effort of not allowing the size of our graph to explode, we removes words that were highly common by creating a cap on document frequency of any token in our vocabulary. This document frequency cap ignores the words that show up in a large number of entities, thus likely being less predictive. In the example of textual embedding, we believe that a bag of words approach is reasonable. Our task is in principle pattern matching, therefore the content of the text is naturally more useful than the sentiment or syntax of the text. An example of textual embedding can be seen in the figure below.
 
 ![Example Textual Embedding](./images/example_textual_embedding.png){ width=70%}
 
 
 ### Quantitative Columns
 
-For the quantitative columns, there is no natural notion of discrete values. For example, we used a column for prices. If we treated this as discrete values, there would be an unreasonably large amount of nodes within the graph and the mathemtical notion of proximity would be lost. For example, the prices $17 and $18 would be as equally close as the prices $20 and $30 if treated as discrete values. In order to remedy this issue, we struck a balance by binning our quantitative columns. This allows us to have a discrete representation while still preserving the notion of mathematical "closeness".
+For the quantitative columns, there is no natural notion of discrete values. For example, we used a column for prices. If we treated this as discrete values, there would be an unreasonably large amount of nodes within the graph and the mathematical notion of proximity would be lost. For example, the prices $17 and $18 would be as equally close as the prices $20 and $30 if treated as discrete values. In order to remedy this issue, we struck a balance by binning our quantitative columns. This allows us to have a discrete representation while still preserving the notion of mathematical "closeness".
 
 We experimented with two strategies for binning:
 1. equal-length bins
@@ -81,7 +81,7 @@ $$\max_{f} \Sigma log(P(N_{S}(n)|f(n))$$
 
 In practical terms, this means that if two nodes are presented within a similar context, then the output of the embedder, $f(n)$ should produce similar embeddings. Though this method was originally built for word embedding, where the sentences are treated as the context for the words, the same framework can be extended to graphs by representing paths as stand-ins for a sentences.
 
-A flaw, however, is that there is no natural understanding of the what consitutes a reliable sample of paths within a graph. The node2vec arhictecture answers this issue with the idea of a parameterized random walk. This is essentially a method for sampling a path by creating a probability distribution parameterized by p (controlling the likelihood of returning to previous node), and q (controlling of how far to move away from current node)
+A flaw, however, is that there is no natural understanding of the what constitutes a reliable sample of paths within a graph. The node2vec architecture answers this issue with the idea of a parameterized random walk. This is essentially a method for sampling a path by creating a probability distribution parameterized by p (controlling the likelihood of returning to previous node), and q (controlling of how far to move away from current node)
 
 ![Sampling Distribution](./images/node2vec_prob_dist.png){ width=40%}
 
@@ -97,19 +97,15 @@ We believe that the Node2Vec algorithm is appropriate for our task, because of t
 
 The last step is the training of a binary model. In this step, we utilized traditional machine learning models. The two models we experimented with are Support Vector Machines (SVM) and Boosted Decision Trees, specifically AdaBoost.
 
-Lastly, the feature representation of the entity nodes
- - describe the ideas of why we use the basic ML algorithms
- - decribe each algorithm, the math of it, and then the pros/cons of each algos
-
 
 ### Support Vector Machine
 
-A Support Vector Machine (SVM) is a machine learning algorithm originally developed in 1963 by Vladimir Vapnik in which the the goal is to solve the optimization problem (where W is the margin between the support vectors, and $\zeta_i$ is the slackness parameter):
+A Support Vector Machine (SVM) is a machine learning algorithm originally developed in 1963 by Vladimir Vapnik in which the goal is to solve the optimization problem (where W is the margin between the support vectors, and $\zeta_i$ is the slackness parameter):
 
 $$minimie \,  (1/n)\,\sum_{i=1}^{n} \zeta_{i}\, + \lambda \, \|W\|$$
 $$Subjuct \, to \, y_{i}(w * x_{i} - b) > 1 - \zeta_{i}$$
 
-A SVM classifier attempts to find the decision boundary that maximizes the distance to the closest data point from each class, which is also considered a support vector. Because the data may not linearly seperable, kernels and the slackness parameter can be used to increase the performance of the model.
+A SVM classifier attempts to find the decision boundary that maximizes the distance to the closest data point from each class, which is also considered a support vector. Because the data may not linearly separable, kernels and the slackness parameter can be used to increase the performance of the model.
 
 ### Boosted Decision Trees
 
@@ -117,7 +113,7 @@ We also wanted to train a boosted decision trees. In this case, we choose the Ad
 
 ## Hyperparameters
 
-A major component of our pipeline is an inordinate amount of hyperparameter tuning throughout our pipeline. Within the graph embedding step, there are hyperparameters associated with the textual embedding and quantitiative binning. Likewise, in the Node2Vec algorithm, there are hyperparameters for the sampling strategy and output vector size. Lastly, there are hyperparameters for our traditional machine learning models.
+A major component of our pipeline is an inordinate amount of hyperparameter tuning throughout our pipeline. Within the graph embedding step, there are hyperparameters associated with the textual embedding and quantitative binning. Likewise, in the Node2Vec algorithm, there are hyperparameters for the sampling strategy and output vector size. Lastly, there are hyperparameters for our traditional machine learning models.
 
 A shortlist of hyperparameters associated with our model is:
 
@@ -225,7 +221,7 @@ This dataset is similar to the Abt-Buy dataset, containing two datasets, one fro
 | ------------- |:-------------:|
 | ![Amazon Table](./images/amazon_nans.png){ width=25% }     | ![Google Table](./images/google_nans.png){ width=25% }|
 
-Like the Abt-Buy dataset, the majority of the data is textual, with the exception of price. The main objective to perform entity linkage would be perform text processing methods on the description columns. In this dataset, there are 1300 ground truth matches, with 1113 unique Amazon IDs and 1291 unique Google IDs, meaning there are 1-to-many entity matches. Unlike the book/author datasets, the titles/names of products between the two datasets rarely match each other exactly, which again reinforces the intuition that the desciption column would have to be heavily utilized to perform effective entity resolution.
+Like the Abt-Buy dataset, the majority of the data is textual, with the exception of price. The main objective to perform entity linkage would be perform text processing methods on the description columns. In this dataset, there are 1300 ground truth matches, with 1113 unique Amazon IDs and 1291 unique Google IDs, meaning there are 1-to-many entity matches. Unlike the book/author datasets, the titles/names of products between the two datasets rarely match each other exactly, which again reinforces the intuition that the description column would have to be heavily utilized to perform effective entity resolution.
 
 \pagebreak
 
@@ -249,9 +245,9 @@ Like the Abt-Buy dataset, the majority of the data is textual, with the exceptio
 
 ## Emperical Results
 
-The emperical results show so far our pipeline is able to perform close to the performance of the baseline model, but is still considerably lagging behind. It is currently difficult to interpret whether these results are due to a flaw within the model or due to improper hyperparameter tuning. 
+The emperical results show so far our pipeline is able to perform close to the performance of the baseline model, but is still considerably lagging behind. It is currently difficult to interpret whether these results are due to a flaw within the model or due to improper hyperparameter tuning.
 
-We found that our model performed on par or worse than the baselines models for most of the smaller datasets. However, our model outperformed the baseline models on the Amazon-Google Products, and more importantly, on the Author Report dataset. This seems to indicate that the performance of our model tends to scale well to larger datasets. This is a positive sign, as this may indicate that our approach is emperically viable, but requires higher amount of data than the traditional model.
+We found that our model performed on par or worse than the baselines models for most of the smaller datasets. However, our model outperformed the baseline models on the Amazon-Google Products, and more importantly, on the Author Report dataset. This seems to indicate that the performance of our model tends to scale well to larger datasets. This is a positive sign, as this may indicate that our approach is empirically viable, but requires higher amount of data than the traditional model.
 
 Also, we found that the SVM as the final classifier performs much better than the AdaBoost classifer.
 
@@ -259,11 +255,11 @@ Also, we found that the SVM as the final classifier performs much better than th
 
 ![Node2Vec Embedding w/ labels](./images/example_node2vec.png){ width=50% }
 
-Much of our method hinges on the idea that rows that are of the same object within each table will have a similar community of features. Because of this is supposed similar community, the node2vec algorithm will project nodes of similar objects into a similar vector (similarity would be based on Euclidean distance). However, much of hinges on the sampling pattern within the Node2vec algorithm that defines the samples of such communities. Althought our assumption is theoretically supported, the effectiveness is unclear.
+Much of our method hinges on the idea that rows that are of the same object within each table will have a similar community of features. Because of this is supposed similar community, the node2vec algorithm will project nodes of similar objects into a similar vector (similarity would be based on Euclidean distance). However, much of hinges on the sampling pattern within the Node2vec algorithm that defines the samples of such communities. Although our assumption is theoretically supported, the effectiveness is unclear.
 
-Figure 12 shows the embeddings of 500 randomly sampled terms. The embeddings were originally into a 500-dimensional space, but then projected into a two dimensional space using t-SNE. It is inherently difficult to validate whether this embedding is reasonable. However, an example to look towards is that the terms 'Apple' and 'macbook' are fairly close to each other. Althought this may be randomness, it indicates that there is a logic interpretation of the embeddings.
+Figure 12 shows the embeddings of 500 randomly sampled terms. The embeddings were originally into a 500-dimensional space, but then projected into a two dimensional space using t-SNE. It is inherently difficult to validate whether this embedding is reasonable. However, an example to look towards is that the terms 'Apple' and 'Macbook' are fairly close to each other. Although this may be randomness, it indicates that there is a logic interpretation of the embeddings.
 
-Similarly, Figure 13 is an example of 500 random terms with the t-SNE projection into 2 dimensions. Visualizely, there doesn't seem to be any inherent forming. However, it is unclear whether clusters should be expected because there isn't a defined discrete groupings within the set of terms projected. So, from visual inspection, it is unclear whether this indicates the effectiveness of the node2vec algorithm for this problem.
+Similarly, Figure 13 is an example of 500 random terms with the t-SNE projection into 2 dimensions. Visually, there doesn't seem to be any inherent forming. However, it is unclear whether clusters should be expected because there isn't a defined discrete groupings within the set of terms projected. So, from visual inspection, it is unclear whether this indicates the effectiveness of the node2vec algorithm for this problem.
 
 ![Node2Vec Embedding w/o labels](./images/node2vec_500.png){ width=50
 % }
@@ -271,9 +267,9 @@ Similarly, Figure 13 is an example of 500 random terms with the t-SNE projection
 
 # Discussion
 
-While we have not obtained major empirical results with our approach yet, we that this is a well-formed method of tackling record linkage. So far, we have results on a small test dataset that shows progress made using our techniques. Prior work in this space has included heterogeneous information networks, but use other methods such as linguistic and natural language processing methods to see if two instances co-refer to the same entity or use other mathematical models such as Bayesian Networks. In comparison, we use a context-based approach, as we believe this can represent hidden complexities and semantics within our graph in a way that other approaches do not. Our results can have an impact in both industry and academia, as joining large datasets becomes an increasingly common problem within this era of “big data.” The methods we used should be broadly applicable to any dataset, as our methods are laid out in a general sense. Our work can also be used as a starting point for researchers that are interested in using context-based approaches for entity recognition (approaches that are perhaps not node2vec).
+Even though our model results are not ideal, we believe that this is a well-formed method of tackling record linkage. Our results on the small test datasets as well as the author disambiguation dataset shows progress made using our techniques. Prior work in this space has included heterogeneous information networks, but use other methods such as linguistic and natural language processing methods to see if two instances co-refer to the same entity or use other mathematical models such as Bayesian Networks. In comparison, we use a context-based approach, as we believe this can represent hidden complexities and semantics within our graph in a way that other approaches do not. Our results can have an impact in both industry and academia, as joining large datasets becomes an increasingly common problem within this era of “big data.” The methods we used should be broadly applicable to any dataset, as our methods are laid out in a general sense. Our work can also be used as a starting point for researchers that are interested in using context-based approaches for entity recognition (approaches that are perhaps not node2vec).
 
-Even though we do not have all of the results of the model yet, we can still look at ways to improve what we have accomplished. There are limitations in our method and there are many improvements that can be made. In creating features with our graph embeddings, we can opt to use more complex techniques, such as using natural language processing approaches rather than bag-of-words. Representing qualitative data can also be improved – for example, there can be “closeness” thresholds and metrics that can determine whether qualitative variables from different instances can be from the same entity. These types of improvements can give a richer representation of the data to the machine learning model and thus, output better results. Hyperparameter tuning is another aspect of our work that can be improved – we note that there are several parameters to tune, beginning at the graph embedding level when we make the features to the machine learning level, where we choose parameters for our models. Clearly, there are aspects that can be manipulated and tweaked at each level, which may improve performance.
+Looking at our results, we can see that there are many ways to improve what we have accomplished. There are limitations in our method and there are many improvements that can be made. In creating features with our graph embeddings, we can opt to use more complex techniques, such as using natural language processing approaches rather than bag-of-words. Representing qualitative data can also be improved – for example, there can be “closeness” thresholds and metrics that can determine whether qualitative variables from different instances can be from the same entity. These types of improvements can give a richer representation of the data to the machine learning model and thus, output better results. Hyperparameter tuning is another aspect of our work that can be improved – we note that there are several parameters to tune, beginning at the graph embedding level when we make the features to the machine learning level, where we choose parameters for our models. Clearly, there are aspects that can be manipulated and tweaked at each level, which may improve performance.
 
 
 \pagebreak
