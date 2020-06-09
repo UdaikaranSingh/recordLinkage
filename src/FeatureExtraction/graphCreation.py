@@ -17,6 +17,43 @@ def fixPrice(x):
     else:
         return x
 
+
+def build_kdd_graph(config):
+    outpath = config['outpath']
+    bins = config['bins']
+    name_min_df = config['name_min_df']
+    text_min_df = config['text_min_df']
+
+    pt1 = "./data/kdd/Paper.csv"
+    pt2 = "./data/kdd/Author.csv"
+    pt3 = "./data/kdd/Journal.csv"
+    pt4 = "./data/kdd/Conference.csv"
+    pt5 = "./data/kdd/PaperAuthor.csv"
+    pt6 = "./data/kdd/train.csv"
+
+    Paper = pd.read_csv(pt1, engine = 'python')
+    Author = pd.read_csv(pt2, engine = 'python')
+    Journal = pd.read_csv(pt3, engine = 'python')
+    Conference = pd.read_csv(pt4, engine = 'python')
+    PaperAuthor = pd.read_csv(pt5, engine = 'python')
+    truth = pd.read_csv(pt6, engine = 'python')
+
+    merger = Paper.merge(Conference, left_on='ConferenceId', right_on='Id',how='outer').drop('Id_y',axis=1).rename(columns={'Id_x':'Id'})
+
+    merger = merger.merge(Journal, left_on='JournalId', right_on='Id', how='outer').drop('Id_y', axis=1).rename(columns={'Id_x':'Id','FullName_x':'FullName_Conference','FullName_y':'FullName_Journal', 'HomePage_x':'HomePage_Conference', 'HomePage_y':'HomePage_Journal', 'ShortName_x':'ShortName_Conference', 'ShortName_y':'ShortName_Journal'})
+    merger = merger.drop(['ConferenceId', 'JournalId'], axis=1)
+
+    merger = merger.merge(PaperAuthor, left_on='Id', right_on='PaperId',how='outer').drop(['PaperId','AuthorId'], axis=1)
+    gE = graphEmbedder()
+
+    gE.defineTruth(PaperAuthor[['PaperId','AuthorId']])
+
+    gE.defineKeys(merger, 'Id')
+
+    gE.defineKeys(Author, 'Id')
+
+    merger_text = merger.drop(['Year', 'HomePage_Conference', 'HomePage_Journal','Keyword'], axis=1)
+
 """
 Method for building graphs for abt_buy dataset.
 """

@@ -34,6 +34,14 @@ def main(targets):
 		build_amazon_google_dataset(config)
 		print("Finished amazon_google Dataset")
 
+	if "create-large-graphs" in targets:
+		configPath = './config/train_large_config.json'
+		with open(configPath) as f:
+			config = json.load(f)
+		f.close()
+		build_kdd_graph(config)
+		print("Finished Author Disambiguation Dataset")
+
 	if "test-project" in targets:
 		configPath = './config/test_config.json'
 		with open(configPath) as f:
